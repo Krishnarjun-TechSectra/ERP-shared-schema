@@ -1,12 +1,13 @@
 {
-  "description": "",
-  "scripts": {
-    "build": "tsc"
-  },
+  "name": "@erp/shared-schema",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "name": "@yourorg/shared-schemas",
-  "version": "1.0.0",
+  "description": "Shared Schema for ERP",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
