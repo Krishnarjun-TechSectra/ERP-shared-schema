@@ -36,22 +36,22 @@ export declare const TaskSchema: z.ZodObject<{
         email: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>;
     priority: z.ZodEnum<{
-        readonly LOW: "low";
-        readonly MEDIUM: "medium";
-        readonly HIGH: "high";
+        high: "high";
+        low: "low";
+        medium: "medium";
     }>;
     deadline: z.ZodString;
     isRecurring: z.ZodDefault<z.ZodBoolean>;
     recurringFrequency: z.ZodOptional<z.ZodEnum<{
-        readonly DAILY: "daily";
-        readonly WEEKLY: "weekly";
-        readonly NIL: "";
+        "": "";
+        daily: "daily";
+        weekly: "weekly";
     }>>;
     status: z.ZodDefault<z.ZodEnum<{
-        readonly TODO: "to_do";
-        readonly IN_PROGRESS: "in_progress";
-        readonly OVERDUE: "overdue";
-        readonly COMPLETED: "completed";
+        completed: "completed";
+        to_do: "to_do";
+        in_progress: "in_progress";
+        overdue: "overdue";
     }>>;
     proofOdfComplete: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
@@ -71,16 +71,16 @@ export declare const CreateTaskSchema: z.ZodObject<{
         email: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>;
     priority: z.ZodEnum<{
-        readonly LOW: "low";
-        readonly MEDIUM: "medium";
-        readonly HIGH: "high";
+        high: "high";
+        low: "low";
+        medium: "medium";
     }>;
     deadline: z.ZodString;
     isRecurring: z.ZodDefault<z.ZodBoolean>;
     recurringFrequency: z.ZodOptional<z.ZodEnum<{
-        readonly DAILY: "daily";
-        readonly WEEKLY: "weekly";
-        readonly NIL: "";
+        "": "";
+        daily: "daily";
+        weekly: "weekly";
     }>>;
     proofOdfComplete: z.ZodOptional<z.ZodString>;
     status: z.ZodDefault<z.ZodEnum<{
@@ -101,22 +101,22 @@ export declare const UpdateTaskSchema: z.ZodObject<{
         email: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>>;
     priority: z.ZodOptional<z.ZodEnum<{
-        readonly LOW: "low";
-        readonly MEDIUM: "medium";
-        readonly HIGH: "high";
+        high: "high";
+        low: "low";
+        medium: "medium";
     }>>;
     deadline: z.ZodOptional<z.ZodString>;
     isRecurring: z.ZodOptional<z.ZodDefault<z.ZodBoolean>>;
     recurringFrequency: z.ZodOptional<z.ZodOptional<z.ZodEnum<{
-        readonly DAILY: "daily";
-        readonly WEEKLY: "weekly";
-        readonly NIL: "";
+        "": "";
+        daily: "daily";
+        weekly: "weekly";
     }>>>;
     status: z.ZodOptional<z.ZodDefault<z.ZodEnum<{
-        readonly TODO: "to_do";
-        readonly IN_PROGRESS: "in_progress";
-        readonly OVERDUE: "overdue";
-        readonly COMPLETED: "completed";
+        completed: "completed";
+        to_do: "to_do";
+        in_progress: "in_progress";
+        overdue: "overdue";
     }>>>;
     proofOdfComplete: z.ZodOptional<z.ZodOptional<z.ZodString>>;
 }, z.core.$strip>;
@@ -139,16 +139,16 @@ declare const CreateTaskDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
         email: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>;
     priority: z.ZodEnum<{
-        readonly LOW: "low";
-        readonly MEDIUM: "medium";
-        readonly HIGH: "high";
+        high: "high";
+        low: "low";
+        medium: "medium";
     }>;
     deadline: z.ZodString;
     isRecurring: z.ZodDefault<z.ZodBoolean>;
     recurringFrequency: z.ZodOptional<z.ZodEnum<{
-        readonly DAILY: "daily";
-        readonly WEEKLY: "weekly";
-        readonly NIL: "";
+        "": "";
+        daily: "daily";
+        weekly: "weekly";
     }>>;
     proofOdfComplete: z.ZodOptional<z.ZodString>;
     status: z.ZodDefault<z.ZodEnum<{
@@ -178,22 +178,22 @@ declare const UpdateTaskDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
         email: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>>;
     priority: z.ZodOptional<z.ZodEnum<{
-        readonly LOW: "low";
-        readonly MEDIUM: "medium";
-        readonly HIGH: "high";
+        high: "high";
+        low: "low";
+        medium: "medium";
     }>>;
     deadline: z.ZodOptional<z.ZodString>;
     isRecurring: z.ZodOptional<z.ZodDefault<z.ZodBoolean>>;
     recurringFrequency: z.ZodOptional<z.ZodOptional<z.ZodEnum<{
-        readonly DAILY: "daily";
-        readonly WEEKLY: "weekly";
-        readonly NIL: "";
+        "": "";
+        daily: "daily";
+        weekly: "weekly";
     }>>>;
     status: z.ZodOptional<z.ZodDefault<z.ZodEnum<{
-        readonly TODO: "to_do";
-        readonly IN_PROGRESS: "in_progress";
-        readonly OVERDUE: "overdue";
-        readonly COMPLETED: "completed";
+        completed: "completed";
+        to_do: "to_do";
+        in_progress: "in_progress";
+        overdue: "overdue";
     }>>>;
     proofOdfComplete: z.ZodOptional<z.ZodOptional<z.ZodString>>;
 }, z.core.$strip>> & {

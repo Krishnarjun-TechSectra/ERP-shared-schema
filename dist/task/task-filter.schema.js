@@ -16,7 +16,7 @@ exports.TaskFilterSchema = v4_1.z.object({
         .optional()
         .describe("Filter tasks assigned to a specific user (UUID)."),
     viewType: v4_1.z
-        .nativeEnum(exports.ViewType)
+        .enum([exports.ViewType.DAILY, exports.ViewType.WEEKLY, exports.ViewType.MONTHLY, exports.ViewType.YEARLY])
         .optional()
         .describe("Filter by calendar view: daily, weekly, monthly, or yearly."),
     deadline: v4_1.z

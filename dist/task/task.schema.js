@@ -46,7 +46,9 @@ const TaskBaseSchema = v4_1.z.object({
         email: v4_1.z.string().email().optional(),
     })
         .optional(),
-    priority: v4_1.z.enum(exports.TaskPriority, { error: "Priority is required" }),
+    priority: v4_1.z.enum([exports.TaskPriority.LOW, exports.TaskPriority.MEDIUM, exports.TaskPriority.HIGH], {
+        error: "Priority is required",
+    }),
     deadline: v4_1.z
         .string({ error: "Deadline is required" })
         .refine((val) => !isNaN(Date.parse(val)), {
@@ -54,11 +56,22 @@ const TaskBaseSchema = v4_1.z.object({
     }),
     isRecurring: v4_1.z.boolean().default(false),
     recurringFrequency: v4_1.z
-        .enum(exports.RecurringFrequency, {
+        .enum([
+        exports.RecurringFrequency.DAILY,
+        exports.RecurringFrequency.WEEKLY,
+        exports.RecurringFrequency.NIL,
+    ], {
         error: "Recurring frequency must be specified",
     })
         .optional(),
-    status: v4_1.z.enum(exports.TaskStatus).default(exports.TaskStatus.TODO),
+    status: v4_1.z
+        .enum([
+        exports.TaskStatus.TODO,
+        exports.TaskStatus.IN_PROGRESS,
+        exports.TaskStatus.OVERDUE,
+        exports.TaskStatus.COMPLETED,
+    ])
+        .default(exports.TaskStatus.TODO),
     proofOdfComplete: v4_1.z.string().optional(),
 });
 /**
