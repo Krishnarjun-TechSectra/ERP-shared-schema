@@ -15,7 +15,7 @@ export const UserRole = {
 /**
  * --------------------------------------
  * BASE USER SCHEMA
- * --------------------------------------
+ * -------------------------------------- 
  */
 export const UserSchema = z.object({
   id: z
