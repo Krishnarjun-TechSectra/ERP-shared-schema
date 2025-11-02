@@ -1,4 +1,4 @@
-import { z } from 'zod/v4';
+import { z } from "zod/v4";
 /**
  * -------------------------------
  * ENUM DEFINITIONS
@@ -30,6 +30,11 @@ export declare const TaskSchema: z.ZodObject<{
     description: z.ZodOptional<z.ZodString>;
     kpi_id: z.ZodOptional<z.ZodString>;
     assignTo: z.ZodString;
+    assignToUser: z.ZodOptional<z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodOptional<z.ZodString>;
+        email: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
     priority: z.ZodEnum<{
         readonly LOW: "low";
         readonly MEDIUM: "medium";
@@ -48,7 +53,7 @@ export declare const TaskSchema: z.ZodObject<{
         readonly OVERDUE: "overdue";
         readonly COMPLETED: "completed";
     }>>;
-    proof_of_complete: z.ZodOptional<z.ZodString>;
+    proofOdfComplete: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
 /**
  * -------------------------------
@@ -60,6 +65,11 @@ export declare const CreateTaskSchema: z.ZodObject<{
     description: z.ZodOptional<z.ZodString>;
     kpi_id: z.ZodOptional<z.ZodString>;
     assignTo: z.ZodString;
+    assignToUser: z.ZodOptional<z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodOptional<z.ZodString>;
+        email: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
     priority: z.ZodEnum<{
         readonly LOW: "low";
         readonly MEDIUM: "medium";
@@ -72,7 +82,7 @@ export declare const CreateTaskSchema: z.ZodObject<{
         readonly WEEKLY: "weekly";
         readonly NIL: "";
     }>>;
-    proof_of_complete: z.ZodOptional<z.ZodString>;
+    proofOdfComplete: z.ZodOptional<z.ZodString>;
     status: z.ZodDefault<z.ZodEnum<{
         readonly TODO: "to_do";
         readonly IN_PROGRESS: "in_progress";
@@ -85,6 +95,11 @@ export declare const UpdateTaskSchema: z.ZodObject<{
     description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     kpi_id: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     assignTo: z.ZodOptional<z.ZodString>;
+    assignToUser: z.ZodOptional<z.ZodOptional<z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodOptional<z.ZodString>;
+        email: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>>;
     priority: z.ZodOptional<z.ZodEnum<{
         readonly LOW: "low";
         readonly MEDIUM: "medium";
@@ -103,7 +118,7 @@ export declare const UpdateTaskSchema: z.ZodObject<{
         readonly OVERDUE: "overdue";
         readonly COMPLETED: "completed";
     }>>>;
-    proof_of_complete: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    proofOdfComplete: z.ZodOptional<z.ZodOptional<z.ZodString>>;
 }, z.core.$strip>;
 /**
  * -------------------------------
@@ -118,6 +133,11 @@ declare const CreateTaskDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
     description: z.ZodOptional<z.ZodString>;
     kpi_id: z.ZodOptional<z.ZodString>;
     assignTo: z.ZodString;
+    assignToUser: z.ZodOptional<z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodOptional<z.ZodString>;
+        email: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
     priority: z.ZodEnum<{
         readonly LOW: "low";
         readonly MEDIUM: "medium";
@@ -130,7 +150,7 @@ declare const CreateTaskDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
         readonly WEEKLY: "weekly";
         readonly NIL: "";
     }>>;
-    proof_of_complete: z.ZodOptional<z.ZodString>;
+    proofOdfComplete: z.ZodOptional<z.ZodString>;
     status: z.ZodDefault<z.ZodEnum<{
         readonly TODO: "to_do";
         readonly IN_PROGRESS: "in_progress";
@@ -152,6 +172,11 @@ declare const UpdateTaskDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
     description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     kpi_id: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     assignTo: z.ZodOptional<z.ZodString>;
+    assignToUser: z.ZodOptional<z.ZodOptional<z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodOptional<z.ZodString>;
+        email: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>>;
     priority: z.ZodOptional<z.ZodEnum<{
         readonly LOW: "low";
         readonly MEDIUM: "medium";
@@ -170,7 +195,7 @@ declare const UpdateTaskDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
         readonly OVERDUE: "overdue";
         readonly COMPLETED: "completed";
     }>>>;
-    proof_of_complete: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    proofOdfComplete: z.ZodOptional<z.ZodOptional<z.ZodString>>;
 }, z.core.$strip>> & {
     io: "input";
 };
