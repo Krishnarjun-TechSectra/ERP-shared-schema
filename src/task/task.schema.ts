@@ -99,7 +99,7 @@ export const TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
  * VARIANTS FOR CREATE / UPDATE
  * -------------------------------
  */
-export const CreateTaskSchema = TaskSchema.extend({
+export const CreateTaskSchema = TaskSchema.safeExtend({
   status: z
     .enum(TaskStatus)
     .default(TaskStatus.TODO),

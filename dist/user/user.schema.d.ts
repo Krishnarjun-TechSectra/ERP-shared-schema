@@ -19,9 +19,9 @@ export declare const UserSchema: z.ZodObject<{
     email: z.ZodOptional<z.ZodString>;
     name: z.ZodOptional<z.ZodString>;
     role: z.ZodDefault<z.ZodEnum<{
-        readonly EMPLOYEE: "employee";
-        readonly ADMIN: "admin";
-        readonly DEVELOPER: "developer";
+        employee: "employee";
+        admin: "admin";
+        developer: "developer";
     }>>;
     created_at: z.ZodString;
 }, z.core.$strip>;
@@ -33,9 +33,9 @@ export declare const UserSchema: z.ZodObject<{
 export declare const CreateUserSchema: z.ZodObject<{
     name: z.ZodOptional<z.ZodString>;
     role: z.ZodDefault<z.ZodEnum<{
-        readonly EMPLOYEE: "employee";
-        readonly ADMIN: "admin";
-        readonly DEVELOPER: "developer";
+        employee: "employee";
+        admin: "admin";
+        developer: "developer";
     }>>;
     email: z.ZodOptional<z.ZodString>;
     id: z.ZodOptional<z.ZodString>;
@@ -46,9 +46,9 @@ export declare const UpdateUserSchema: z.ZodObject<{
     email: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     name: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     role: z.ZodOptional<z.ZodDefault<z.ZodEnum<{
-        readonly EMPLOYEE: "employee";
-        readonly ADMIN: "admin";
-        readonly DEVELOPER: "developer";
+        employee: "employee";
+        admin: "admin";
+        developer: "developer";
     }>>>;
     created_at: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
@@ -63,9 +63,9 @@ export type UpdateUser = z.infer<typeof UpdateUserSchema>;
 declare const CreateUserDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
     name: z.ZodOptional<z.ZodString>;
     role: z.ZodDefault<z.ZodEnum<{
-        readonly EMPLOYEE: "employee";
-        readonly ADMIN: "admin";
-        readonly DEVELOPER: "developer";
+        employee: "employee";
+        admin: "admin";
+        developer: "developer";
     }>>;
     email: z.ZodOptional<z.ZodString>;
     id: z.ZodOptional<z.ZodString>;
@@ -85,9 +85,9 @@ declare const UpdateUserDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
     email: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     name: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     role: z.ZodOptional<z.ZodDefault<z.ZodEnum<{
-        readonly EMPLOYEE: "employee";
-        readonly ADMIN: "admin";
-        readonly DEVELOPER: "developer";
+        employee: "employee";
+        admin: "admin";
+        developer: "developer";
     }>>>;
     created_at: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>> & {

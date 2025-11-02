@@ -21,7 +21,7 @@ exports.UserRole = {
 exports.UserSchema = zod_1.z.object({
     id: zod_1.z
         .string({
-        error: "User ID is required",
+        message: "User ID is required",
     })
         .uuid("Invalid UUID format")
         .describe("Unique user identifier (UUID)."),
@@ -37,8 +37,8 @@ exports.UserSchema = zod_1.z.object({
         .optional()
         .describe("Full name of the user (optional)."),
     role: zod_1.z
-        .enum(exports.UserRole, {
-        error: "Role is required",
+        .enum([exports.UserRole.EMPLOYEE, exports.UserRole.ADMIN, exports.UserRole.DEVELOPER], {
+        message: "Role is required",
     })
         .default("employee")
         .describe("Defines the user's access level."),
@@ -57,7 +57,7 @@ exports.UserSchema = zod_1.z.object({
 exports.CreateUserSchema = exports.UserSchema.omit({
     id: true,
     created_at: true,
-}).extend({
+}).safeExtend({
     id: zod_1.z.string().uuid().optional(),
     created_at: zod_1.z.string().optional(),
 });

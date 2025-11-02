@@ -20,7 +20,7 @@ export const UserRole = {
 export const UserSchema = z.object({
   id: z
     .string({
-      error: "User ID is required",
+      message: "User ID is required",
     })
     .uuid("Invalid UUID format")
     .describe("Unique user identifier (UUID)."),
@@ -39,8 +39,8 @@ export const UserSchema = z.object({
     .describe("Full name of the user (optional)."),
 
   role: z
-    .enum(UserRole, {
-      error: "Role is required",
+    .enum([UserRole.EMPLOYEE, UserRole.ADMIN, UserRole.DEVELOPER], {
+      message: "Role is required",
     })
     .default("employee")
     .describe("Defines the user's access level."),
@@ -61,7 +61,7 @@ export const UserSchema = z.object({
 export const CreateUserSchema = UserSchema.omit({
   id: true,
   created_at: true,
-}).extend({
+}).safeExtend({
   id: z.string().uuid().optional(),
   created_at: z.string().optional(),
 });

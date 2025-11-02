@@ -79,7 +79,7 @@ exports.TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
  * VARIANTS FOR CREATE / UPDATE
  * -------------------------------
  */
-exports.CreateTaskSchema = exports.TaskSchema.extend({
+exports.CreateTaskSchema = exports.TaskSchema.safeExtend({
     status: v4_1.z
         .enum(exports.TaskStatus)
         .default(exports.TaskStatus.TODO),
