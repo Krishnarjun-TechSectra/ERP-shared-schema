@@ -1,3 +1,4 @@
+import { createZodDto } from "nestjs-zod";
 import { z } from "zod";
 /**
  * --------------------------------------
@@ -58,3 +59,12 @@ export const CreateUserSchema = UserSchema.omit({
     created_at: z.string().optional(),
 });
 export const UpdateUserSchema = UserSchema.partial().describe("Schema for updating user details. All fields optional.");
+/**
+ * --------------------------------------
+ * NESTJS DTOs (for validation in controllers)
+ * --------------------------------------
+ */
+export class CreateUserDto extends createZodDto(CreateUserSchema) {
+}
+export class UpdateUserDto extends createZodDto(UpdateUserSchema) {
+}

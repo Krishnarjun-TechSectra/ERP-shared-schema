@@ -1,5 +1,5 @@
+import { createZodDto } from "nestjs-zod";
 import { z } from "zod/v4";
-
 
 export const ViewType = {
   DAILY: "daily",
@@ -29,5 +29,5 @@ export const TaskFilterSchema = z.object({
     .describe("Filter tasks by deadline date (ISO 8601 format)."),
 });
 
-
-export type TaskFilterDto = z.infer<typeof TaskFilterSchema>;
+export type TaskFilter = z.infer<typeof TaskFilterSchema>;
+export class TaskFilterDto extends createZodDto(TaskFilterSchema) {}

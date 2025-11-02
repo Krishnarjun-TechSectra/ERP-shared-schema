@@ -1,4 +1,6 @@
+// shared/kpi.schema.ts
 import { z } from "zod";
+import { createZodDto } from "nestjs-zod";
 export const KpiSchema = z.object({
     title: z.string().nonempty("Title is required"),
     description: z.string().optional(),
@@ -8,4 +10,9 @@ export const KpiSchema = z.object({
         .nonempty("Color code is required"),
 });
 export const CreateKpiSchema = KpiSchema;
-export const UpdateKpiSchema = KpiSchema.partial().describe("Update KPI");
+export const UpdateKpiSchema = KpiSchema.partial();
+// ✅ DTO classes for NestJS
+export class CreateKpiDto extends createZodDto(CreateKpiSchema) {
+}
+export class UpdateKpiDto extends createZodDto(UpdateKpiSchema) {
+}

@@ -1,102 +1,74 @@
-import { z } from "zod/v4";
+import { createZodDto } from 'nestjs-zod';
+import { z } from 'zod/v4';
 /**
  * -------------------------------
  * ENUM DEFINITIONS
  * -------------------------------
  */
 export const TaskPriority = {
-    LOW: "low",
-    MEDIUM: "medium",
-    HIGH: "high",
+    LOW: 'low',
+    MEDIUM: 'medium',
+    HIGH: 'high',
 };
 export const RecurringFrequency = {
-    DAILY: "daily",
-    WEEKLY: "weekly",
-    NIL: "",
+    DAILY: 'daily',
+    WEEKLY: 'weekly',
+    NIL: '',
 };
 export const TaskStatus = {
-    TODO: "to_do",
-    IN_PROGRESS: "in_progress",
-    OVERDUE: "overdue",
-    COMPLETED: "completed",
+    TODO: 'to_do',
+    IN_PROGRESS: 'in_progress',
+    OVERDUE: 'overdue',
+    COMPLETED: 'completed',
 };
 /**
  * -------------------------------
  * BASE SCHEMA
  * -------------------------------
- * Uses .enum() and .uuid() replacements with modern Zod patterns.
  */
 const TaskBaseSchema = z.object({
     title: z
-        .string({
-        error: "Title is required",
-    })
-        .min(1, "Title cannot be empty")
-        .max(100, "Title must be under 100 characters")
-        .describe("Enter a concise, descriptive title for the task."),
+        .string({ error: 'Title is required' })
+        .min(1, 'Title cannot be empty')
+        .max(100, 'Title must be under 100 characters'),
     description: z
         .string()
-        .max(1000, "Description too long")
-        .optional()
-        .describe("Detailed explanation or notes about the task."),
+        .max(1000, 'Description too long')
+        .optional(),
     kpi_id: z
         .string()
-        .uuid("Invalid KPI ID format")
-        .optional()
-        .describe("Associated KPI reference ID (optional)."),
+        .uuid('Invalid KPI ID format')
+        .optional(),
     assignTo: z
-        .string({
-        error: "Assignee is required",
-    })
-        .uuid("Invalid user ID format")
-        .describe("UUID of the user assigned to this task."),
-    priority: z
-        .enum(TaskPriority, {
-        error: "Priority is required",
-    })
-        .describe("Set task priority: low, medium, or high."),
+        .string({ error: 'Assignee is required' })
+        .uuid('Invalid user ID format'),
+    priority: z.enum(TaskPriority, { error: 'Priority is required' }),
     deadline: z
-        .string({
-        error: "Deadline is required",
-    })
+        .string({ error: 'Deadline is required' })
         .refine((val) => !isNaN(Date.parse(val)), {
-        message: "Invalid deadline format. Use ISO 8601 date string.",
-    })
-        .describe("Task deadline in ISO 8601 format (e.g., 2025-11-03T00:00:00Z)."),
-    isRecurring: z
-        .boolean()
-        .default(false)
-        .describe("Whether this task repeats over time."),
+        message: 'Invalid deadline format. Use ISO 8601 date string.',
+    }),
+    isRecurring: z.boolean().default(false),
     recurringFrequency: z
-        .enum(RecurringFrequency, {
-        error: "Recurring frequency must be specified when recurring",
-    })
-        .optional()
-        .describe("If recurring, specify repetition interval (daily, weekly, or none)."),
-    status: z
-        .enum(TaskStatus)
-        .default("to_do")
-        .describe("Current progress status of the task."),
+        .enum(RecurringFrequency, { error: 'Recurring frequency must be specified' })
+        .optional(),
+    status: z.enum(TaskStatus).default(TaskStatus.TODO),
     proof_of_complete: z
         .string()
-        .optional()
-        .describe("Provide a valid URL or file link as proof of completion."),
+        .optional(),
 });
 /**
  * -------------------------------
  * CONDITIONAL VALIDATION
  * -------------------------------
- * Proof required if status = COMPLETED
  */
 export const TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
-    if (data.status === "completed" && !data.proof_of_complete) {
-        const customIssue = {
-            code: "custom",
-            message: "Proof of completion is required when status is completed.",
-            path: ["proof_of_complete"],
-            input: undefined,
-        };
-        ctx.issues.push(customIssue);
+    if (data.status === TaskStatus.COMPLETED && !data.proof_of_complete) {
+        ctx.addIssue({
+            code: 'custom',
+            message: 'Proof of completion is required when status is completed.',
+            path: ['proof_of_complete'],
+        });
     }
 });
 /**
@@ -106,8 +78,16 @@ export const TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
  */
 export const CreateTaskSchema = TaskSchema.extend({
     status: z
-        .enum(["to_do", "in_progress", "overdue", "completed"])
-        .default("to_do")
-        .describe("Initial task status (default: to_do)."),
+        .enum(TaskStatus)
+        .default(TaskStatus.TODO),
 });
-export const UpdateTaskSchema = TaskSchema.partial().describe("Schema for updating an existing task. All fields optional.");
+export const UpdateTaskSchema = TaskSchema.partial();
+/**
+ * -------------------------------
+ * NESTJS DTOs (for Controllers)
+ * -------------------------------
+ */
+export class CreateTaskDto extends createZodDto(CreateTaskSchema) {
+}
+export class UpdateTaskDto extends createZodDto(UpdateTaskSchema) {
+}

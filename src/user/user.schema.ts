@@ -1,3 +1,4 @@
+import { createZodDto } from "nestjs-zod";
 import { z } from "zod";
 
 /**
@@ -75,5 +76,13 @@ export const UpdateUserSchema = UserSchema.partial().describe(
  * --------------------------------------
  */
 export type User = z.infer<typeof UserSchema>;
-export type CreateUserDto = z.infer<typeof CreateUserSchema>;
-export type UpdateUserDto = z.infer<typeof UpdateUserSchema>;
+export type CreateUser = z.infer<typeof CreateUserSchema>;
+export type UpdateUser = z.infer<typeof UpdateUserSchema>;
+
+/**
+ * --------------------------------------
+ * NESTJS DTOs (for validation in controllers)
+ * --------------------------------------
+ */
+export class CreateUserDto extends createZodDto(CreateUserSchema) {}
+export class UpdateUserDto extends createZodDto(UpdateUserSchema) {}

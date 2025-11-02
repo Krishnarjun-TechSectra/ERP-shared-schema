@@ -15,5 +15,24 @@ export declare const UpdateKpiSchema: z.ZodObject<{
     colorCode: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
 export type Kpi = z.infer<typeof KpiSchema>;
-export type CreateKpiDto = z.infer<typeof CreateKpiSchema>;
-export type UpdateKpiDto = z.infer<typeof UpdateKpiSchema>;
+export type CreateKpi = z.infer<typeof CreateKpiSchema>;
+export type UpdateKpi = z.infer<typeof UpdateKpiSchema>;
+declare const CreateKpiDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
+    title: z.ZodString;
+    description: z.ZodOptional<z.ZodString>;
+    colorCode: z.ZodString;
+}, z.core.$strip>> & {
+    io: "input";
+};
+export declare class CreateKpiDto extends CreateKpiDto_base {
+}
+declare const UpdateKpiDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
+    title: z.ZodOptional<z.ZodString>;
+    description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    colorCode: z.ZodOptional<z.ZodString>;
+}, z.core.$strip>> & {
+    io: "input";
+};
+export declare class UpdateKpiDto extends UpdateKpiDto_base {
+}
+export {};

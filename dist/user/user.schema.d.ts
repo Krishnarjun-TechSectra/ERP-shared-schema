@@ -58,5 +58,41 @@ export declare const UpdateUserSchema: z.ZodObject<{
  * --------------------------------------
  */
 export type User = z.infer<typeof UserSchema>;
-export type CreateUserDto = z.infer<typeof CreateUserSchema>;
-export type UpdateUserDto = z.infer<typeof UpdateUserSchema>;
+export type CreateUser = z.infer<typeof CreateUserSchema>;
+export type UpdateUser = z.infer<typeof UpdateUserSchema>;
+declare const CreateUserDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
+    name: z.ZodOptional<z.ZodString>;
+    role: z.ZodDefault<z.ZodEnum<{
+        readonly EMPLOYEE: "employee";
+        readonly ADMIN: "admin";
+        readonly DEVELOPER: "developer";
+    }>>;
+    email: z.ZodOptional<z.ZodString>;
+    id: z.ZodOptional<z.ZodString>;
+    created_at: z.ZodOptional<z.ZodString>;
+}, z.core.$strip>> & {
+    io: "input";
+};
+/**
+ * --------------------------------------
+ * NESTJS DTOs (for validation in controllers)
+ * --------------------------------------
+ */
+export declare class CreateUserDto extends CreateUserDto_base {
+}
+declare const UpdateUserDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
+    id: z.ZodOptional<z.ZodString>;
+    email: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    name: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    role: z.ZodOptional<z.ZodDefault<z.ZodEnum<{
+        readonly EMPLOYEE: "employee";
+        readonly ADMIN: "admin";
+        readonly DEVELOPER: "developer";
+    }>>>;
+    created_at: z.ZodOptional<z.ZodString>;
+}, z.core.$strip>> & {
+    io: "input";
+};
+export declare class UpdateUserDto extends UpdateUserDto_base {
+}
+export {};
