@@ -52,7 +52,9 @@ const TaskBaseSchema = z.object({
     })
     .optional(),
 
-  priority: z.enum(TaskPriority, { error: "Priority is required" }),
+  priority: z.enum([TaskPriority.LOW, TaskPriority.MEDIUM, TaskPriority.HIGH], {
+    error: "Priority is required",
+  }),
 
   deadline: z
     .string({ error: "Deadline is required" })
@@ -63,12 +65,26 @@ const TaskBaseSchema = z.object({
   isRecurring: z.boolean().default(false),
 
   recurringFrequency: z
-    .enum(RecurringFrequency, {
-      error: "Recurring frequency must be specified",
-    })
+    .enum(
+      [
+        RecurringFrequency.DAILY,
+        RecurringFrequency.WEEKLY,
+        RecurringFrequency.NIL,
+      ],
+      {
+        error: "Recurring frequency must be specified",
+      }
+    )
     .optional(),
 
-  status: z.enum(TaskStatus).default(TaskStatus.TODO),
+  status: z
+    .enum([
+      TaskStatus.TODO,
+      TaskStatus.IN_PROGRESS,
+      TaskStatus.OVERDUE,
+      TaskStatus.COMPLETED,
+    ])
+    .default(TaskStatus.TODO),
 
   proofOdfComplete: z.string().optional(),
 });

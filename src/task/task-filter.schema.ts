@@ -16,7 +16,7 @@ export const TaskFilterSchema = z.object({
     .describe("Filter tasks assigned to a specific user (UUID)."),
 
   viewType: z
-    .nativeEnum(ViewType)
+    .enum([ViewType.DAILY, ViewType.WEEKLY, ViewType.MONTHLY, ViewType.YEARLY])
     .optional()
     .describe("Filter by calendar view: daily, weekly, monthly, or yearly."),
 
