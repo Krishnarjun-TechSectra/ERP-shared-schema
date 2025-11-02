@@ -1,18 +1,23 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateKpiDto = exports.CreateKpiDto = exports.UpdateKpiSchema = exports.CreateKpiSchema = exports.KpiSchema = void 0;
 // shared/kpi.schema.ts
-import { z } from "zod";
-import { createZodDto } from "nestjs-zod";
-export const KpiSchema = z.object({
-    title: z.string().nonempty("Title is required"),
-    description: z.string().optional(),
-    colorCode: z
+const zod_1 = require("zod");
+const nestjs_zod_1 = require("nestjs-zod");
+exports.KpiSchema = zod_1.z.object({
+    title: zod_1.z.string().nonempty("Title is required"),
+    description: zod_1.z.string().optional(),
+    colorCode: zod_1.z
         .string()
         .regex(/^#([0-9A-Fa-f]{3}){1,2}$/, "Invalid hex color code")
         .nonempty("Color code is required"),
 });
-export const CreateKpiSchema = KpiSchema;
-export const UpdateKpiSchema = KpiSchema.partial();
+exports.CreateKpiSchema = exports.KpiSchema;
+exports.UpdateKpiSchema = exports.KpiSchema.partial();
 // ✅ DTO classes for NestJS
-export class CreateKpiDto extends createZodDto(CreateKpiSchema) {
+class CreateKpiDto extends (0, nestjs_zod_1.createZodDto)(exports.CreateKpiSchema) {
 }
-export class UpdateKpiDto extends createZodDto(UpdateKpiSchema) {
+exports.CreateKpiDto = CreateKpiDto;
+class UpdateKpiDto extends (0, nestjs_zod_1.createZodDto)(exports.UpdateKpiSchema) {
 }
+exports.UpdateKpiDto = UpdateKpiDto;

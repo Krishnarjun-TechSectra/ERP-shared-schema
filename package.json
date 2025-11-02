@@ -5,13 +5,13 @@
   "types": "dist/index.d.ts",
   "description": "Shared Schema for ERP",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "prepare": "npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "@nestjs/swagger": "^11.2.1",
     "nestjs-zod": "^5.0.1",

@@ -1,21 +1,24 @@
-import { createZodDto } from 'nestjs-zod';
-import { z } from 'zod/v4';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateTaskDto = exports.CreateTaskDto = exports.UpdateTaskSchema = exports.CreateTaskSchema = exports.TaskSchema = exports.TaskStatus = exports.RecurringFrequency = exports.TaskPriority = void 0;
+const nestjs_zod_1 = require("nestjs-zod");
+const v4_1 = require("zod/v4");
 /**
  * -------------------------------
  * ENUM DEFINITIONS
  * -------------------------------
  */
-export const TaskPriority = {
+exports.TaskPriority = {
     LOW: 'low',
     MEDIUM: 'medium',
     HIGH: 'high',
 };
-export const RecurringFrequency = {
+exports.RecurringFrequency = {
     DAILY: 'daily',
     WEEKLY: 'weekly',
     NIL: '',
 };
-export const TaskStatus = {
+exports.TaskStatus = {
     TODO: 'to_do',
     IN_PROGRESS: 'in_progress',
     OVERDUE: 'overdue',
@@ -26,34 +29,34 @@ export const TaskStatus = {
  * BASE SCHEMA
  * -------------------------------
  */
-const TaskBaseSchema = z.object({
-    title: z
+const TaskBaseSchema = v4_1.z.object({
+    title: v4_1.z
         .string({ error: 'Title is required' })
         .min(1, 'Title cannot be empty')
         .max(100, 'Title must be under 100 characters'),
-    description: z
+    description: v4_1.z
         .string()
         .max(1000, 'Description too long')
         .optional(),
-    kpi_id: z
+    kpi_id: v4_1.z
         .string()
         .uuid('Invalid KPI ID format')
         .optional(),
-    assignTo: z
+    assignTo: v4_1.z
         .string({ error: 'Assignee is required' })
         .uuid('Invalid user ID format'),
-    priority: z.enum(TaskPriority, { error: 'Priority is required' }),
-    deadline: z
+    priority: v4_1.z.enum(exports.TaskPriority, { error: 'Priority is required' }),
+    deadline: v4_1.z
         .string({ error: 'Deadline is required' })
         .refine((val) => !isNaN(Date.parse(val)), {
         message: 'Invalid deadline format. Use ISO 8601 date string.',
     }),
-    isRecurring: z.boolean().default(false),
-    recurringFrequency: z
-        .enum(RecurringFrequency, { error: 'Recurring frequency must be specified' })
+    isRecurring: v4_1.z.boolean().default(false),
+    recurringFrequency: v4_1.z
+        .enum(exports.RecurringFrequency, { error: 'Recurring frequency must be specified' })
         .optional(),
-    status: z.enum(TaskStatus).default(TaskStatus.TODO),
-    proof_of_complete: z
+    status: v4_1.z.enum(exports.TaskStatus).default(exports.TaskStatus.TODO),
+    proof_of_complete: v4_1.z
         .string()
         .optional(),
 });
@@ -62,8 +65,8 @@ const TaskBaseSchema = z.object({
  * CONDITIONAL VALIDATION
  * -------------------------------
  */
-export const TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
-    if (data.status === TaskStatus.COMPLETED && !data.proof_of_complete) {
+exports.TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
+    if (data.status === exports.TaskStatus.COMPLETED && !data.proof_of_complete) {
         ctx.addIssue({
             code: 'custom',
             message: 'Proof of completion is required when status is completed.',
@@ -76,18 +79,20 @@ export const TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
  * VARIANTS FOR CREATE / UPDATE
  * -------------------------------
  */
-export const CreateTaskSchema = TaskSchema.extend({
-    status: z
-        .enum(TaskStatus)
-        .default(TaskStatus.TODO),
+exports.CreateTaskSchema = exports.TaskSchema.extend({
+    status: v4_1.z
+        .enum(exports.TaskStatus)
+        .default(exports.TaskStatus.TODO),
 });
-export const UpdateTaskSchema = TaskSchema.partial();
+exports.UpdateTaskSchema = exports.TaskSchema.partial();
 /**
  * -------------------------------
  * NESTJS DTOs (for Controllers)
  * -------------------------------
  */
-export class CreateTaskDto extends createZodDto(CreateTaskSchema) {
+class CreateTaskDto extends (0, nestjs_zod_1.createZodDto)(exports.CreateTaskSchema) {
 }
-export class UpdateTaskDto extends createZodDto(UpdateTaskSchema) {
+exports.CreateTaskDto = CreateTaskDto;
+class UpdateTaskDto extends (0, nestjs_zod_1.createZodDto)(exports.UpdateTaskSchema) {
 }
+exports.UpdateTaskDto = UpdateTaskDto;
