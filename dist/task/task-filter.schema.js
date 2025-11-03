@@ -10,7 +10,7 @@ exports.ViewType = {
     YEARLY: "yearly",
 };
 exports.TaskFilterSchema = v4_1.z.object({
-    assignTo: v4_1.z
+    assignedTo: v4_1.z
         .string()
         .uuid("Invalid user ID format")
         .optional()

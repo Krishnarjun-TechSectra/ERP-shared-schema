@@ -6,7 +6,7 @@ export declare const ViewType: {
     readonly YEARLY: "yearly";
 };
 export declare const TaskFilterSchema: z.ZodObject<{
-    assignTo: z.ZodOptional<z.ZodString>;
+    assignedTo: z.ZodOptional<z.ZodString>;
     viewType: z.ZodOptional<z.ZodEnum<{
         daily: "daily";
         weekly: "weekly";
@@ -17,7 +17,7 @@ export declare const TaskFilterSchema: z.ZodObject<{
 }, z.core.$strip>;
 export type TaskFilter = z.infer<typeof TaskFilterSchema>;
 declare const TaskFilterDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
-    assignTo: z.ZodOptional<z.ZodString>;
+    assignedTo: z.ZodOptional<z.ZodString>;
     viewType: z.ZodOptional<z.ZodEnum<{
         daily: "daily";
         weekly: "weekly";

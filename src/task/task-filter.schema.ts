@@ -9,7 +9,7 @@ export const ViewType = {
 } as const;
 
 export const TaskFilterSchema = z.object({
-  assignTo: z
+  assignedTo: z
     .string()
     .uuid("Invalid user ID format")
     .optional()
