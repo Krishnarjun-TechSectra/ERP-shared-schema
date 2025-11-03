@@ -1,29 +1,19 @@
-import { createZodDto } from "nestjs-zod";
-import { z } from "zod/v4";
+import { createZodDto } from 'nestjs-zod';
+import { z } from 'zod/v4';
 
 /**
  * -------------------------------
  * ENUM DEFINITIONS
  * -------------------------------
  */
-export const TaskPriority = {
-  LOW: "low",
-  MEDIUM: "medium",
-  HIGH: "high",
-} as const;
-
-export const RecurringFrequency = {
-  DAILY: "daily",
-  WEEKLY: "weekly",
-  NIL: "",
-} as const;
-
-export const TaskStatus = {
-  TODO: "to_do",
-  IN_PROGRESS: "in_progress",
-  OVERDUE: "overdue",
-  COMPLETED: "completed",
-} as const;
+export const TaskPriority = z.enum(['low', 'medium', 'high']);
+export const RecurringFrequency = z.enum(['daily', 'weekly', '']);
+export const TaskStatus = z.enum([
+  'to_do',
+  'in_progress',
+  'completed',
+  'overdue',
+]);
 
 /**
  * -------------------------------
@@ -32,19 +22,19 @@ export const TaskStatus = {
  */
 const TaskBaseSchema = z.object({
   title: z
-    .string({ error: "Title is required" })
-    .min(1, "Title cannot be empty")
-    .max(100, "Title must be under 100 characters"),
+    .string({ error: 'Title is required' })
+    .min(1, 'Title cannot be empty')
+    .max(150, 'Title must be under 150 characters'),
 
-  description: z.string().max(1000, "Description too long").optional(),
+  description: z.string().max(1000, 'Description too long').optional(),
 
-  kpi_id: z.string().uuid("Invalid KPI ID format").optional(),
+  // Foreign key fields
+  kpiId: z.string().uuid('Invalid KPI ID format').optional(),
 
-  assignTo: z
-    .string({ error: "Assignee is required" })
-    .uuid("Invalid user ID format"),
+  assignedTo: z.string().uuid('Invalid User ID format').optional(),
 
-  assignToUser: z
+  // Optional embedded user object (when returning populated data)
+  assignedUser: z
     .object({
       id: z.string().uuid(),
       name: z.string().optional(),
@@ -52,41 +42,22 @@ const TaskBaseSchema = z.object({
     })
     .optional(),
 
-  priority: z.enum([TaskPriority.LOW, TaskPriority.MEDIUM, TaskPriority.HIGH], {
-    error: "Priority is required",
-  }),
+  priority: TaskPriority.default('medium'),
 
   deadline: z
-    .string({ error: "Deadline is required" })
+    .string({ error: 'Deadline is required' })
     .refine((val) => !isNaN(Date.parse(val)), {
-      message: "Invalid deadline format. Use ISO 8601 date string.",
-    }),
+      message: 'Invalid date format. Use ISO 8601 string.',
+    })
+    .optional(),
+
+  status: TaskStatus.default('to_do'),
 
   isRecurring: z.boolean().default(false),
 
-  recurringFrequency: z
-    .enum(
-      [
-        RecurringFrequency.DAILY,
-        RecurringFrequency.WEEKLY,
-        RecurringFrequency.NIL,
-      ],
-      {
-        error: "Recurring frequency must be specified",
-      }
-    )
-    .optional(),
+  recurringFrequency: RecurringFrequency.optional(),
 
-  status: z
-    .enum([
-      TaskStatus.TODO,
-      TaskStatus.IN_PROGRESS,
-      TaskStatus.OVERDUE,
-      TaskStatus.COMPLETED,
-    ])
-    .default(TaskStatus.TODO),
-
-  proofOdfComplete: z.string().optional(),
+  proofOfCompletion: z.string().optional(),
 });
 
 /**
@@ -95,29 +66,34 @@ const TaskBaseSchema = z.object({
  * -------------------------------
  */
 export const TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
-  if (data.status === TaskStatus.COMPLETED && !data.proofOdfComplete) {
+  if (data.status === 'completed' && !data.proofOfCompletion) {
     ctx.addIssue({
-      code: "custom",
-      message: "Proof of completion is required when status is completed.",
-      path: ["proofOdfComplete"],
+      code: 'custom',
+      message: 'Proof of completion is required when status is completed.',
+      path: ['proofOfCompletion'],
     });
   }
 });
 
 /**
  * -------------------------------
- * VARIANTS FOR CREATE / UPDATE
+ * CREATE / UPDATE VARIANTS
  * -------------------------------
  */
-export const CreateTaskSchema = TaskSchema.safeExtend({
-  status: z.enum(TaskStatus).default(TaskStatus.TODO),
+export const CreateTaskSchema = TaskSchema.extend({
+  title: z.string({ error: 'Title is required' }),
+  assignedTo: z
+    .string({ error: 'Assigned user is required' })
+    .uuid('Invalid User ID format'),
+  kpiId: z.string().uuid('Invalid KPI ID format').optional(),
+  status: TaskStatus.default('to_do'),
 });
 
 export const UpdateTaskSchema = TaskSchema.partial();
 
 /**
  * -------------------------------
- * TYPES (for TypeScript safety)
+ * TYPES (for TS safety)
  * -------------------------------
  */
 export type Task = z.infer<typeof TaskSchema>;
@@ -126,7 +102,7 @@ export type UpdateTask = z.infer<typeof UpdateTaskSchema>;
 
 /**
  * -------------------------------
- * NESTJS DTOs (for Controllers)
+ * NESTJS DTO CLASSES
  * -------------------------------
  */
 export class CreateTaskDto extends createZodDto(CreateTaskSchema) {}
