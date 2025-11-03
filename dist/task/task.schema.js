@@ -69,7 +69,7 @@ exports.TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
  * CREATE / UPDATE VARIANTS
  * -------------------------------
  */
-exports.CreateTaskSchema = exports.TaskSchema.extend({
+exports.CreateTaskSchema = exports.TaskSchema.safeExtend({
     title: v4_1.z.string({ error: 'Title is required' }),
     assignedTo: v4_1.z
         .string({ error: 'Assigned user is required' })

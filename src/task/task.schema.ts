@@ -80,7 +80,7 @@ export const TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
  * CREATE / UPDATE VARIANTS
  * -------------------------------
  */
-export const CreateTaskSchema = TaskSchema.extend({
+export const CreateTaskSchema = TaskSchema.safeExtend({
   title: z.string({ error: 'Title is required' }),
   assignedTo: z
     .string({ error: 'Assigned user is required' })
