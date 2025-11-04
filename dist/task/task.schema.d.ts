@@ -1,29 +1,25 @@
-import { z } from 'zod/v4';
+import { z } from "zod/v4";
 /**
- * -------------------------------
- * ENUM DEFINITIONS
- * -------------------------------
+ * ENUM DEFINITIONS (same as before)
  */
-export declare const TaskPriority: z.ZodEnum<{
+export declare const TaskPriorityEnum: z.ZodEnum<{
     high: "high";
     low: "low";
     medium: "medium";
 }>;
-export declare const RecurringFrequency: z.ZodEnum<{
+export declare const RecurringFrequencyEnum: z.ZodEnum<{
     "": "";
     daily: "daily";
     weekly: "weekly";
 }>;
-export declare const TaskStatus: z.ZodEnum<{
+export declare const TaskStatusEnum: z.ZodEnum<{
     completed: "completed";
     to_do: "to_do";
     in_progress: "in_progress";
     overdue: "overdue";
 }>;
 /**
- * -------------------------------
  * CONDITIONAL VALIDATION
- * -------------------------------
  */
 export declare const TaskSchema: z.ZodObject<{
     title: z.ZodString;
@@ -56,9 +52,7 @@ export declare const TaskSchema: z.ZodObject<{
     proofOfCompletion: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
 /**
- * -------------------------------
  * CREATE / UPDATE VARIANTS
- * -------------------------------
  */
 export declare const CreateTaskSchema: z.ZodObject<{
     description: z.ZodOptional<z.ZodString>;
@@ -121,9 +115,7 @@ export declare const UpdateTaskSchema: z.ZodObject<{
     proofOfCompletion: z.ZodOptional<z.ZodOptional<z.ZodString>>;
 }, z.core.$strip>;
 /**
- * -------------------------------
  * TYPES (for TS safety)
- * -------------------------------
  */
 export type Task = z.infer<typeof TaskSchema>;
 export type CreateTask = z.infer<typeof CreateTaskSchema>;
@@ -161,9 +153,7 @@ declare const CreateTaskDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
     io: "input";
 };
 /**
- * -------------------------------
  * NESTJS DTO CLASSES
- * -------------------------------
  */
 export declare class CreateTaskDto extends CreateTaskDto_base {
 }
