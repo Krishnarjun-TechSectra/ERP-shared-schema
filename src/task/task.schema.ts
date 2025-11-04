@@ -4,9 +4,9 @@ import { z } from "zod/v4";
 /**
  * ENUM DEFINITIONS (same as before)
  */
-export const TaskPriority = z.enum(["low", "medium", "high"]);
-export const RecurringFrequency = z.enum(["daily", "weekly", ""]);
-export const TaskStatus = z.enum([
+export const TaskPriorityEnum = z.enum(["low", "medium", "high"]);
+export const RecurringFrequencyEnum = z.enum(["daily", "weekly", ""]);
+export const TaskStatusEnum = z.enum([
   "to_do",
   "in_progress",
   "completed",
@@ -32,7 +32,7 @@ const TaskBaseSchema = z.object({
       email: z.string().email().optional(),
     })
     .optional(),
-  priority: TaskPriority.default("medium"),
+  priority: TaskPriorityEnum.default("medium"),
   deadline: z
     .string()
     .min(1, "Deadline is required")
@@ -40,9 +40,9 @@ const TaskBaseSchema = z.object({
       message: "Invalid date format. Use ISO 8601 string.",
     })
     .optional(),
-  status: TaskStatus.default("to_do"),
+  status: TaskStatusEnum.default("to_do"),
   isRecurring: z.boolean().default(false),
-  recurringFrequency: RecurringFrequency.optional(),
+  recurringFrequency: RecurringFrequencyEnum.optional(),
   proofOfCompletion: z.string().optional(),
 });
 
@@ -69,7 +69,7 @@ export const CreateTaskSchema = TaskSchema.safeExtend({
     .min(1, "Assigned User is Required")
     .uuid("Invalid User ID format"),
   kpiId: z.string().uuid("Invalid KPI ID format").optional(),
-  status: TaskStatus.default("to_do"),
+  status: TaskStatusEnum.default("to_do"),
 });
 
 export const UpdateTaskSchema = TaskSchema.partial();

@@ -1,13 +1,18 @@
 import { createZodDto } from "nestjs-zod";
 import { z } from "zod/v4";
 
-export const ViewType = {
+// Enum as const
+export const ViewTypeEnum = {
   DAILY: "daily",
   WEEKLY: "weekly",
   MONTHLY: "monthly",
   YEARLY: "yearly",
 } as const;
 
+// Create a Zod enum from object values
+export const ViewTypeZod = z.enum(Object.values(ViewTypeEnum) as [string, ...string[]]);
+
+// Schema definition
 export const TaskFilterSchema = z.object({
   assignedTo: z
     .string()
@@ -15,8 +20,7 @@ export const TaskFilterSchema = z.object({
     .optional()
     .describe("Filter tasks assigned to a specific user (UUID)."),
 
-  viewType: z
-    .enum([ViewType.DAILY, ViewType.WEEKLY, ViewType.MONTHLY, ViewType.YEARLY])
+  viewType: ViewTypeZod
     .optional()
     .describe("Filter by calendar view: daily, weekly, monthly, or yearly."),
 
@@ -29,5 +33,6 @@ export const TaskFilterSchema = z.object({
     .describe("Filter tasks by deadline date (ISO 8601 format)."),
 });
 
+// Types and DTO class
 export type TaskFilter = z.infer<typeof TaskFilterSchema>;
 export class TaskFilterDto extends createZodDto(TaskFilterSchema) {}
