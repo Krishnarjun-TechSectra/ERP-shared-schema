@@ -74,8 +74,9 @@ exports.UpdateTaskSchema = exports.TaskSchema.partial().extend({
     id: zod_1.z.string().uuid(),
 });
 exports.TaskFilterSchema = zod_1.z.object({
-    assignedUserId: zod_1.z.string().uuid().optional(),
+    assignedUserId: zod_1.z.string().optional(),
     viewType: zod_1.z.enum(ViewTypeEnum).optional(),
-    startDate: zod_1.z.coerce.date().optional(), // used internally for filtering range
-    endDate: zod_1.z.coerce.date().optional(), // used internally for filtering range
+    date: zod_1.z.string().datetime().optional(),
+    month: zod_1.z.number().min(1).max(12).optional(),
+    year: zod_1.z.number().min(2000).max(2100).optional(),
 });
