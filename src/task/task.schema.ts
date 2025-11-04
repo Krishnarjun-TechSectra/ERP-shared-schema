@@ -11,7 +11,7 @@ export enum TaskPriorityEnum {
 
 export enum TaskStatusEnum {
   TODO = "To Do",
-  IN_PROGRESS = "In Progress",
+  IN_PROGRESS = "In Progress",  
   COMPLETED = "Completed",
   CANCELLED = "Cancelled",
 }
@@ -85,12 +85,12 @@ export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 
 
 export const TaskFilterSchema = z.object({
-  assignedUserId: z.string().uuid().optional(),
+  assignedUserId: z.string().optional(),
   viewType: z.enum(ViewTypeEnum).optional(),
-  startDate: z.coerce.date().optional(), // used internally for filtering range
-  endDate: z.coerce.date().optional(),   // used internally for filtering range
+  date: z.string().datetime().optional(),
+  month: z.number().min(1).max(12).optional(),
+  year: z.number().min(2000).max(2100).optional(),
 });
-
 /**
  * Notes:
  * - `assignedUserId`: filter tasks assigned to a specific user
