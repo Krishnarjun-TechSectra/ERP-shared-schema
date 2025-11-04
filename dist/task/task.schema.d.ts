@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 export declare enum TaskPriorityEnum {
     LOW = "Low",
     MEDIUM = "Medium",
@@ -70,9 +70,9 @@ export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 export declare const TaskFilterSchema: z.ZodObject<{
     assignedUserId: z.ZodOptional<z.ZodString>;
     viewType: z.ZodOptional<z.ZodEnum<typeof ViewTypeEnum>>;
-    date: z.ZodOptional<z.ZodString>;
-    month: z.ZodOptional<z.ZodNumber>;
-    year: z.ZodOptional<z.ZodNumber>;
+    date: z.ZodOptional<z.ZodCoercedDate<unknown>>;
+    month: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+    year: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
 }, z.core.$strip>;
 /**
  * Notes:

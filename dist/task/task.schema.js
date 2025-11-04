@@ -38,7 +38,7 @@ var ViewTypeEnum;
 --------------------------------*/
 exports.TaskSchema = zod_1.z.object({
     id: zod_1.z.string().uuid(),
-    title: zod_1.z.string().min(1, 'Title is required'),
+    title: zod_1.z.string().min(1, "Title is required"),
     description: zod_1.z.string().optional(),
     priority: zod_1.z.enum(TaskPriorityEnum).default(TaskPriorityEnum.MEDIUM),
     deadline: zod_1.z.coerce.date(),
@@ -63,9 +63,11 @@ exports.CreateTaskSchema = exports.TaskSchema.omit({
     createdAt: true,
     updatedAt: true,
 }).extend({
-    title: zod_1.z.string().min(1, 'Title is required'),
-    assignedUserId: zod_1.z.string().uuid({ message: 'Assigned user ID must be a valid UUID' }),
-    kpiId: zod_1.z.string().uuid({ message: 'KPI ID must be a valid UUID' }),
+    title: zod_1.z.string().min(1, "Title is required"),
+    assignedUserId: zod_1.z
+        .string()
+        .uuid({ message: "Assigned user ID must be a valid UUID" }),
+    kpiId: zod_1.z.string().uuid({ message: "KPI ID must be a valid UUID" }),
 });
 /* -------------------------------
    UPDATE TASK DTO
@@ -76,7 +78,7 @@ exports.UpdateTaskSchema = exports.TaskSchema.partial().extend({
 exports.TaskFilterSchema = zod_1.z.object({
     assignedUserId: zod_1.z.string().optional(),
     viewType: zod_1.z.enum(ViewTypeEnum).optional(),
-    date: zod_1.z.string().datetime().optional(),
-    month: zod_1.z.number().min(1).max(12).optional(),
-    year: zod_1.z.number().min(2000).max(2100).optional(),
+    date: zod_1.z.coerce.date().optional(), // will handle "2025-11-05T00:00:00Z"
+    month: zod_1.z.coerce.number().min(1).max(12).optional(), // "11" → 11
+    year: zod_1.z.coerce.number().min(2000).max(2100).optional(), // "2025" → 2025
 });

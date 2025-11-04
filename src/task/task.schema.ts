@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 /* -------------------------------
    ENUM DEFINITIONS
@@ -11,7 +11,7 @@ export enum TaskPriorityEnum {
 
 export enum TaskStatusEnum {
   TODO = "To Do",
-  IN_PROGRESS = "In Progress",  
+  IN_PROGRESS = "In Progress",
   COMPLETED = "Completed",
   CANCELLED = "Cancelled",
 }
@@ -37,7 +37,7 @@ export enum ViewTypeEnum {
 
 export const TaskSchema = z.object({
   id: z.string().uuid(),
-  title: z.string().min(1, 'Title is required'),
+  title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
   priority: z.enum(TaskPriorityEnum).default(TaskPriorityEnum.MEDIUM),
   deadline: z.coerce.date(),
@@ -66,9 +66,11 @@ export const CreateTaskSchema = TaskSchema.omit({
   createdAt: true,
   updatedAt: true,
 }).extend({
-  title: z.string().min(1, 'Title is required'),
-  assignedUserId: z.string().uuid({ message: 'Assigned user ID must be a valid UUID' }),
-  kpiId: z.string().uuid({ message: 'KPI ID must be a valid UUID' }),
+  title: z.string().min(1, "Title is required"),
+  assignedUserId: z
+    .string()
+    .uuid({ message: "Assigned user ID must be a valid UUID" }),
+  kpiId: z.string().uuid({ message: "KPI ID must be a valid UUID" }),
 });
 
 export type CreateTaskDTO = z.infer<typeof CreateTaskSchema>;
@@ -83,13 +85,12 @@ export const UpdateTaskSchema = TaskSchema.partial().extend({
 
 export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 
-
 export const TaskFilterSchema = z.object({
   assignedUserId: z.string().optional(),
   viewType: z.enum(ViewTypeEnum).optional(),
-  date: z.string().datetime().optional(),
-  month: z.number().min(1).max(12).optional(),
-  year: z.number().min(2000).max(2100).optional(),
+  date: z.coerce.date().optional(), // will handle "2025-11-05T00:00:00Z"
+  month: z.coerce.number().min(1).max(12).optional(), // "11" → 11
+  year: z.coerce.number().min(2000).max(2100).optional(), // "2025" → 2025
 });
 /**
  * Notes:
