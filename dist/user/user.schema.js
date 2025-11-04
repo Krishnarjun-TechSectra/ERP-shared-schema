@@ -1,75 +1,36 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateUserDto = exports.CreateUserDto = exports.UpdateUserSchema = exports.CreateUserSchema = exports.UserSchema = exports.UserRole = void 0;
-const nestjs_zod_1 = require("nestjs-zod");
+exports.UpdateUserSchema = exports.CreateUserSchema = exports.UserSchema = exports.RoleSchema = exports.RoleEnum = void 0;
 const zod_1 = require("zod");
-/**
- * --------------------------------------
- * ENUMS / CONSTANTS
- * --------------------------------------
- */
-exports.UserRole = {
-    EMPLOYEE: "employee",
-    ADMIN: "admin",
-    DEVELOPER: "developer",
-};
-/**
- * --------------------------------------
- * BASE USER SCHEMA
- * --------------------------------------
- */
+/* -----------------------------------
+   ENUM DEFINITIONS (human-readable)
+------------------------------------*/
+var RoleEnum;
+(function (RoleEnum) {
+    RoleEnum["EMPLOYEE"] = "Employee";
+    RoleEnum["ADMIN"] = "Admin";
+    RoleEnum["DEVELOPER"] = "Developer";
+})(RoleEnum || (exports.RoleEnum = RoleEnum = {}));
+/* -----------------------------------
+   ZOD SCHEMA FOR ROLE FIELD
+------------------------------------*/
+exports.RoleSchema = zod_1.z.enum(RoleEnum);
 exports.UserSchema = zod_1.z.object({
-    id: zod_1.z
-        .string({
-        message: "User ID is required",
-    })
-        .uuid("Invalid UUID format")
-        .describe("Unique user identifier (UUID)."),
-    email: zod_1.z
-        .string()
-        .email("Invalid email format")
-        .optional()
-        .describe("User's email address (optional)."),
-    name: zod_1.z
-        .string()
-        .min(1, "Name cannot be empty")
-        .max(100, "Name must be under 100 characters")
-        .optional()
-        .describe("Full name of the user (optional)."),
-    role: zod_1.z
-        .enum([exports.UserRole.EMPLOYEE, exports.UserRole.ADMIN, exports.UserRole.DEVELOPER], {
-        message: "Role is required",
-    })
-        .default("employee")
-        .describe("Defines the user's access level."),
-    created_at: zod_1.z
-        .string()
-        .refine((val) => !isNaN(Date.parse(val)), {
-        message: "Invalid date format for created_at. Use ISO date string.",
-    })
-        .describe("Timestamp when the user was created."),
+    id: zod_1.z.string().uuid(),
+    name: zod_1.z.string().min(1, "Name is required"),
+    email: zod_1.z.string().email("Invalid email"),
+    password: zod_1.z.string().min(6, "Password must be at least 6 characters"),
+    role: zod_1.z.enum(RoleEnum).default(RoleEnum.EMPLOYEE),
+    createdAt: zod_1.z.coerce.date().optional(),
+    updatedAt: zod_1.z.coerce.date().optional(),
 });
-/**
- * --------------------------------------
- * VARIANTS FOR CREATE / UPDATE
- * --------------------------------------
- */
+/* CREATE DTO */
 exports.CreateUserSchema = exports.UserSchema.omit({
     id: true,
-    created_at: true,
-}).safeExtend({
-    id: zod_1.z.string().uuid().optional(),
-    created_at: zod_1.z.string().optional(),
+    createdAt: true,
+    updatedAt: true,
 });
-exports.UpdateUserSchema = exports.UserSchema.partial().describe("Schema for updating user details. All fields optional.");
-/**
- * --------------------------------------
- * NESTJS DTOs (for validation in controllers)
- * --------------------------------------
- */
-class CreateUserDto extends (0, nestjs_zod_1.createZodDto)(exports.CreateUserSchema) {
-}
-exports.CreateUserDto = CreateUserDto;
-class UpdateUserDto extends (0, nestjs_zod_1.createZodDto)(exports.UpdateUserSchema) {
-}
-exports.UpdateUserDto = UpdateUserDto;
+/* UPDATE DTO */
+exports.UpdateUserSchema = exports.UserSchema.partial().extend({
+    id: zod_1.z.string().uuid(),
+});
