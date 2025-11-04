@@ -1,194 +1,82 @@
-import { z } from "zod/v4";
-/**
- * ENUM DEFINITIONS (same as before)
- */
-export declare const TaskPriorityEnum: z.ZodEnum<{
-    high: "high";
-    low: "low";
-    medium: "medium";
-}>;
-export declare const RecurringFrequencyEnum: z.ZodEnum<{
-    "": "";
-    daily: "daily";
-    weekly: "weekly";
-}>;
-export declare const TaskStatusEnum: z.ZodEnum<{
-    completed: "completed";
-    to_do: "to_do";
-    in_progress: "in_progress";
-    overdue: "overdue";
-}>;
-/**
- * CONDITIONAL VALIDATION
- */
+import { z } from 'zod';
+export declare enum TaskPriorityEnum {
+    LOW = "Low",
+    MEDIUM = "Medium",
+    HIGH = "High"
+}
+export declare enum TaskStatusEnum {
+    TODO = "To Do",
+    IN_PROGRESS = "In Progress",
+    COMPLETED = "Completed",
+    CANCELLED = "Cancelled"
+}
+export declare enum RecurringFrequencyEnum {
+    DAILY = "Daily",
+    WEEKLY = "Weekly",
+    MONTHLY = "Monthly",
+    YEARLY = "Yearly"
+}
+export declare enum ViewTypeEnum {
+    DAILY = "Daily",
+    WEEKLY = "Weekly",
+    MONTHLY = "Monthly",
+    YEARLY = "Yearly"
+}
 export declare const TaskSchema: z.ZodObject<{
+    id: z.ZodString;
     title: z.ZodString;
     description: z.ZodOptional<z.ZodString>;
+    priority: z.ZodDefault<z.ZodEnum<typeof TaskPriorityEnum>>;
+    deadline: z.ZodCoercedDate<unknown>;
+    isRecurring: z.ZodBoolean;
+    recurringFrequency: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>>;
+    status: z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>;
+    proofOfCompletion: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    assignedUserId: z.ZodOptional<z.ZodString>;
     kpiId: z.ZodOptional<z.ZodString>;
-    assignedTo: z.ZodOptional<z.ZodString>;
-    assignedUser: z.ZodOptional<z.ZodObject<{
-        id: z.ZodString;
-        name: z.ZodOptional<z.ZodString>;
-        email: z.ZodOptional<z.ZodString>;
-    }, z.core.$strip>>;
-    priority: z.ZodDefault<z.ZodEnum<{
-        high: "high";
-        low: "low";
-        medium: "medium";
-    }>>;
-    deadline: z.ZodOptional<z.ZodString>;
-    status: z.ZodDefault<z.ZodEnum<{
-        completed: "completed";
-        to_do: "to_do";
-        in_progress: "in_progress";
-        overdue: "overdue";
-    }>>;
-    isRecurring: z.ZodDefault<z.ZodBoolean>;
-    recurringFrequency: z.ZodOptional<z.ZodEnum<{
-        "": "";
-        daily: "daily";
-        weekly: "weekly";
-    }>>;
-    proofOfCompletion: z.ZodOptional<z.ZodString>;
+    createdAt: z.ZodOptional<z.ZodCoercedDate<unknown>>;
+    updatedAt: z.ZodOptional<z.ZodCoercedDate<unknown>>;
 }, z.core.$strip>;
-/**
- * CREATE / UPDATE VARIANTS
- */
+export type TaskSchemaType = z.infer<typeof TaskSchema>;
 export declare const CreateTaskSchema: z.ZodObject<{
+    priority: z.ZodDefault<z.ZodEnum<typeof TaskPriorityEnum>>;
     description: z.ZodOptional<z.ZodString>;
-    assignedUser: z.ZodOptional<z.ZodObject<{
-        id: z.ZodString;
-        name: z.ZodOptional<z.ZodString>;
-        email: z.ZodOptional<z.ZodString>;
-    }, z.core.$strip>>;
-    priority: z.ZodDefault<z.ZodEnum<{
-        high: "high";
-        low: "low";
-        medium: "medium";
-    }>>;
-    deadline: z.ZodOptional<z.ZodString>;
-    isRecurring: z.ZodDefault<z.ZodBoolean>;
-    recurringFrequency: z.ZodOptional<z.ZodEnum<{
-        "": "";
-        daily: "daily";
-        weekly: "weekly";
-    }>>;
-    proofOfCompletion: z.ZodOptional<z.ZodString>;
+    status: z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>;
+    deadline: z.ZodCoercedDate<unknown>;
+    isRecurring: z.ZodBoolean;
+    recurringFrequency: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>>;
+    proofOfCompletion: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     title: z.ZodString;
-    assignedTo: z.ZodString;
-    kpiId: z.ZodOptional<z.ZodString>;
-    status: z.ZodDefault<z.ZodEnum<{
-        completed: "completed";
-        to_do: "to_do";
-        in_progress: "in_progress";
-        overdue: "overdue";
-    }>>;
+    assignedUserId: z.ZodString;
+    kpiId: z.ZodString;
 }, z.core.$strip>;
+export type CreateTaskDTO = z.infer<typeof CreateTaskSchema>;
 export declare const UpdateTaskSchema: z.ZodObject<{
     title: z.ZodOptional<z.ZodString>;
     description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    priority: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskPriorityEnum>>>;
+    deadline: z.ZodOptional<z.ZodCoercedDate<unknown>>;
+    isRecurring: z.ZodOptional<z.ZodBoolean>;
+    recurringFrequency: z.ZodOptional<z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>>>;
+    status: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>>;
+    proofOfCompletion: z.ZodOptional<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+    assignedUserId: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     kpiId: z.ZodOptional<z.ZodOptional<z.ZodString>>;
-    assignedTo: z.ZodOptional<z.ZodOptional<z.ZodString>>;
-    assignedUser: z.ZodOptional<z.ZodOptional<z.ZodObject<{
-        id: z.ZodString;
-        name: z.ZodOptional<z.ZodString>;
-        email: z.ZodOptional<z.ZodString>;
-    }, z.core.$strip>>>;
-    priority: z.ZodOptional<z.ZodDefault<z.ZodEnum<{
-        high: "high";
-        low: "low";
-        medium: "medium";
-    }>>>;
-    deadline: z.ZodOptional<z.ZodOptional<z.ZodString>>;
-    status: z.ZodOptional<z.ZodDefault<z.ZodEnum<{
-        completed: "completed";
-        to_do: "to_do";
-        in_progress: "in_progress";
-        overdue: "overdue";
-    }>>>;
-    isRecurring: z.ZodOptional<z.ZodDefault<z.ZodBoolean>>;
-    recurringFrequency: z.ZodOptional<z.ZodOptional<z.ZodEnum<{
-        "": "";
-        daily: "daily";
-        weekly: "weekly";
-    }>>>;
-    proofOfCompletion: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+    updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+    id: z.ZodString;
+}, z.core.$strip>;
+export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
+export declare const TaskFilterSchema: z.ZodObject<{
+    assignedUserId: z.ZodOptional<z.ZodString>;
+    viewType: z.ZodOptional<z.ZodEnum<typeof ViewTypeEnum>>;
+    startDate: z.ZodOptional<z.ZodCoercedDate<unknown>>;
+    endDate: z.ZodOptional<z.ZodCoercedDate<unknown>>;
 }, z.core.$strip>;
 /**
- * TYPES (for TS safety)
+ * Notes:
+ * - `assignedUserId`: filter tasks assigned to a specific user
+ * - `viewType`: determines the time period to filter (daily, weekly, monthly, yearly)
+ * - You can derive `startDate` and `endDate` based on `viewType` in service logic
  */
-export type Task = z.infer<typeof TaskSchema>;
-export type CreateTask = z.infer<typeof CreateTaskSchema>;
-export type UpdateTask = z.infer<typeof UpdateTaskSchema>;
-declare const CreateTaskDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
-    description: z.ZodOptional<z.ZodString>;
-    assignedUser: z.ZodOptional<z.ZodObject<{
-        id: z.ZodString;
-        name: z.ZodOptional<z.ZodString>;
-        email: z.ZodOptional<z.ZodString>;
-    }, z.core.$strip>>;
-    priority: z.ZodDefault<z.ZodEnum<{
-        high: "high";
-        low: "low";
-        medium: "medium";
-    }>>;
-    deadline: z.ZodOptional<z.ZodString>;
-    isRecurring: z.ZodDefault<z.ZodBoolean>;
-    recurringFrequency: z.ZodOptional<z.ZodEnum<{
-        "": "";
-        daily: "daily";
-        weekly: "weekly";
-    }>>;
-    proofOfCompletion: z.ZodOptional<z.ZodString>;
-    title: z.ZodString;
-    assignedTo: z.ZodString;
-    kpiId: z.ZodOptional<z.ZodString>;
-    status: z.ZodDefault<z.ZodEnum<{
-        completed: "completed";
-        to_do: "to_do";
-        in_progress: "in_progress";
-        overdue: "overdue";
-    }>>;
-}, z.core.$strip>> & {
-    io: "input";
-};
-/**
- * NESTJS DTO CLASSES
- */
-export declare class CreateTaskDto extends CreateTaskDto_base {
-}
-declare const UpdateTaskDto_base: import("nestjs-zod").ZodDto<z.ZodObject<{
-    title: z.ZodOptional<z.ZodString>;
-    description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
-    kpiId: z.ZodOptional<z.ZodOptional<z.ZodString>>;
-    assignedTo: z.ZodOptional<z.ZodOptional<z.ZodString>>;
-    assignedUser: z.ZodOptional<z.ZodOptional<z.ZodObject<{
-        id: z.ZodString;
-        name: z.ZodOptional<z.ZodString>;
-        email: z.ZodOptional<z.ZodString>;
-    }, z.core.$strip>>>;
-    priority: z.ZodOptional<z.ZodDefault<z.ZodEnum<{
-        high: "high";
-        low: "low";
-        medium: "medium";
-    }>>>;
-    deadline: z.ZodOptional<z.ZodOptional<z.ZodString>>;
-    status: z.ZodOptional<z.ZodDefault<z.ZodEnum<{
-        completed: "completed";
-        to_do: "to_do";
-        in_progress: "in_progress";
-        overdue: "overdue";
-    }>>>;
-    isRecurring: z.ZodOptional<z.ZodDefault<z.ZodBoolean>>;
-    recurringFrequency: z.ZodOptional<z.ZodOptional<z.ZodEnum<{
-        "": "";
-        daily: "daily";
-        weekly: "weekly";
-    }>>>;
-    proofOfCompletion: z.ZodOptional<z.ZodOptional<z.ZodString>>;
-}, z.core.$strip>> & {
-    io: "input";
-};
-export declare class UpdateTaskDto extends UpdateTaskDto_base {
-}
-export {};
+export type TaskFilterDTO = z.infer<typeof TaskFilterSchema>;

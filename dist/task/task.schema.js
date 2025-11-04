@@ -1,82 +1,81 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateTaskDto = exports.CreateTaskDto = exports.UpdateTaskSchema = exports.CreateTaskSchema = exports.TaskSchema = exports.TaskStatusEnum = exports.RecurringFrequencyEnum = exports.TaskPriorityEnum = void 0;
-const nestjs_zod_1 = require("nestjs-zod");
-const v4_1 = require("zod/v4");
-/**
- * ENUM DEFINITIONS (same as before)
- */
-exports.TaskPriorityEnum = v4_1.z.enum(["low", "medium", "high"]);
-exports.RecurringFrequencyEnum = v4_1.z.enum(["daily", "weekly", ""]);
-exports.TaskStatusEnum = v4_1.z.enum([
-    "to_do",
-    "in_progress",
-    "completed",
-    "overdue",
-]);
-/**
- * BASE SCHEMA
- */
-const TaskBaseSchema = v4_1.z.object({
-    title: v4_1.z
-        .string({ message: "Title is required" })
-        .min(1, "Title cannot be empty")
-        .max(150, "Title must be under 150 characters"),
-    description: v4_1.z.string().max(1000, "Description too long").optional(),
-    kpiId: v4_1.z.string().uuid("Invalid KPI ID format").optional(),
-    assignedTo: v4_1.z.string().uuid("Invalid User ID format").optional(), // Input user id!
-    // assignedUser is for output population only
-    assignedUser: v4_1.z
-        .object({
-        id: v4_1.z.string().uuid(),
-        name: v4_1.z.string().optional(),
-        email: v4_1.z.string().email().optional(),
-    })
-        .optional(),
-    priority: exports.TaskPriorityEnum.default("medium"),
-    deadline: v4_1.z
-        .string()
-        .min(1, "Deadline is required")
-        .refine((val) => !isNaN(Date.parse(val)), {
-        message: "Invalid date format. Use ISO 8601 string.",
-    })
-        .optional(),
-    status: exports.TaskStatusEnum.default("to_do"),
-    isRecurring: v4_1.z.boolean().default(false),
-    recurringFrequency: exports.RecurringFrequencyEnum.optional(),
-    proofOfCompletion: v4_1.z.string().optional(),
+exports.TaskFilterSchema = exports.UpdateTaskSchema = exports.CreateTaskSchema = exports.TaskSchema = exports.ViewTypeEnum = exports.RecurringFrequencyEnum = exports.TaskStatusEnum = exports.TaskPriorityEnum = void 0;
+const zod_1 = require("zod");
+/* -------------------------------
+   ENUM DEFINITIONS
+--------------------------------*/
+var TaskPriorityEnum;
+(function (TaskPriorityEnum) {
+    TaskPriorityEnum["LOW"] = "Low";
+    TaskPriorityEnum["MEDIUM"] = "Medium";
+    TaskPriorityEnum["HIGH"] = "High";
+})(TaskPriorityEnum || (exports.TaskPriorityEnum = TaskPriorityEnum = {}));
+var TaskStatusEnum;
+(function (TaskStatusEnum) {
+    TaskStatusEnum["TODO"] = "To Do";
+    TaskStatusEnum["IN_PROGRESS"] = "In Progress";
+    TaskStatusEnum["COMPLETED"] = "Completed";
+    TaskStatusEnum["CANCELLED"] = "Cancelled";
+})(TaskStatusEnum || (exports.TaskStatusEnum = TaskStatusEnum = {}));
+var RecurringFrequencyEnum;
+(function (RecurringFrequencyEnum) {
+    RecurringFrequencyEnum["DAILY"] = "Daily";
+    RecurringFrequencyEnum["WEEKLY"] = "Weekly";
+    RecurringFrequencyEnum["MONTHLY"] = "Monthly";
+    RecurringFrequencyEnum["YEARLY"] = "Yearly";
+})(RecurringFrequencyEnum || (exports.RecurringFrequencyEnum = RecurringFrequencyEnum = {}));
+// View type for filtering
+var ViewTypeEnum;
+(function (ViewTypeEnum) {
+    ViewTypeEnum["DAILY"] = "Daily";
+    ViewTypeEnum["WEEKLY"] = "Weekly";
+    ViewTypeEnum["MONTHLY"] = "Monthly";
+    ViewTypeEnum["YEARLY"] = "Yearly";
+})(ViewTypeEnum || (exports.ViewTypeEnum = ViewTypeEnum = {}));
+/* -------------------------------
+   SHARED ZOD SCHEMA
+--------------------------------*/
+exports.TaskSchema = zod_1.z.object({
+    id: zod_1.z.string().uuid(),
+    title: zod_1.z.string().min(1, 'Title is required'),
+    description: zod_1.z.string().optional(),
+    priority: zod_1.z.enum(TaskPriorityEnum).default(TaskPriorityEnum.MEDIUM),
+    deadline: zod_1.z.coerce.date(),
+    isRecurring: zod_1.z.boolean(),
+    recurringFrequency: zod_1.z
+        .enum(RecurringFrequencyEnum)
+        .nullable()
+        .optional()
+        .default(RecurringFrequencyEnum.DAILY),
+    status: zod_1.z.enum(TaskStatusEnum).default(TaskStatusEnum.TODO),
+    proofOfCompletion: zod_1.z.string().nullable().optional(),
+    assignedUserId: zod_1.z.string().uuid().optional(),
+    kpiId: zod_1.z.string().uuid().optional(),
+    createdAt: zod_1.z.coerce.date().optional(),
+    updatedAt: zod_1.z.coerce.date().optional(),
 });
-/**
- * CONDITIONAL VALIDATION
- */
-exports.TaskSchema = TaskBaseSchema.superRefine((data, ctx) => {
-    if (data.status === "completed" && !data.proofOfCompletion) {
-        ctx.addIssue({
-            code: "custom",
-            message: "Proof of completion is required when status is completed.",
-            path: ["proofOfCompletion"],
-        });
-    }
+/* -------------------------------
+   CREATE TASK DTO
+--------------------------------*/
+exports.CreateTaskSchema = exports.TaskSchema.omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+}).extend({
+    title: zod_1.z.string().min(1, 'Title is required'),
+    assignedUserId: zod_1.z.string().uuid({ message: 'Assigned user ID must be a valid UUID' }),
+    kpiId: zod_1.z.string().uuid({ message: 'KPI ID must be a valid UUID' }),
 });
-/**
- * CREATE / UPDATE VARIANTS
- */
-exports.CreateTaskSchema = exports.TaskSchema.safeExtend({
-    title: v4_1.z.string().min(1, "Title is required"),
-    assignedTo: v4_1.z
-        .string()
-        .min(1, "Assigned User is Required")
-        .uuid("Invalid User ID format"),
-    kpiId: v4_1.z.string().uuid("Invalid KPI ID format").optional(),
-    status: exports.TaskStatusEnum.default("to_do"),
+/* -------------------------------
+   UPDATE TASK DTO
+--------------------------------*/
+exports.UpdateTaskSchema = exports.TaskSchema.partial().extend({
+    id: zod_1.z.string().uuid(),
 });
-exports.UpdateTaskSchema = exports.TaskSchema.partial();
-/**
- * NESTJS DTO CLASSES
- */
-class CreateTaskDto extends (0, nestjs_zod_1.createZodDto)(exports.CreateTaskSchema) {
-}
-exports.CreateTaskDto = CreateTaskDto;
-class UpdateTaskDto extends (0, nestjs_zod_1.createZodDto)(exports.UpdateTaskSchema) {
-}
-exports.UpdateTaskDto = UpdateTaskDto;
+exports.TaskFilterSchema = zod_1.z.object({
+    assignedUserId: zod_1.z.string().uuid().optional(),
+    viewType: zod_1.z.enum(ViewTypeEnum).optional(),
+    startDate: zod_1.z.coerce.date().optional(), // used internally for filtering range
+    endDate: zod_1.z.coerce.date().optional(), // used internally for filtering range
+});
