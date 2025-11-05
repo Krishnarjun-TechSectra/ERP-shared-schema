@@ -22,8 +22,6 @@ var RecurringFrequencyEnum;
 (function (RecurringFrequencyEnum) {
     RecurringFrequencyEnum["DAILY"] = "Daily";
     RecurringFrequencyEnum["WEEKLY"] = "Weekly";
-    RecurringFrequencyEnum["MONTHLY"] = "Monthly";
-    RecurringFrequencyEnum["YEARLY"] = "Yearly";
 })(RecurringFrequencyEnum || (exports.RecurringFrequencyEnum = RecurringFrequencyEnum = {}));
 // View type for filtering
 var ViewTypeEnum;
@@ -44,10 +42,9 @@ exports.TaskSchema = zod_1.z.object({
     deadline: zod_1.z.coerce.date(),
     isRecurring: zod_1.z.boolean(),
     recurringFrequency: zod_1.z
-        .enum(RecurringFrequencyEnum)
-        .nullable()
+        .nativeEnum(RecurringFrequencyEnum)
         .optional()
-        .default(RecurringFrequencyEnum.DAILY),
+        .nullable(),
     status: zod_1.z.enum(TaskStatusEnum).default(TaskStatusEnum.TODO),
     proofOfCompletion: zod_1.z.string().nullable().optional(),
     assignedUserId: zod_1.z.string().uuid().optional(),

@@ -19,8 +19,6 @@ export enum TaskStatusEnum {
 export enum RecurringFrequencyEnum {
   DAILY = "Daily",
   WEEKLY = "Weekly",
-  MONTHLY = "Monthly",
-  YEARLY = "Yearly",
 }
 
 // View type for filtering
@@ -43,10 +41,9 @@ export const TaskSchema = z.object({
   deadline: z.coerce.date(),
   isRecurring: z.boolean(),
   recurringFrequency: z
-    .enum(RecurringFrequencyEnum)
-    .nullable()
+    .nativeEnum(RecurringFrequencyEnum)
     .optional()
-    .default(RecurringFrequencyEnum.DAILY),
+    .nullable(),
   status: z.enum(TaskStatusEnum).default(TaskStatusEnum.TODO),
   proofOfCompletion: z.string().nullable().optional(),
   assignedUserId: z.string().uuid().optional(),

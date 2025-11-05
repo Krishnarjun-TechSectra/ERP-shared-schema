@@ -12,9 +12,7 @@ export declare enum TaskStatusEnum {
 }
 export declare enum RecurringFrequencyEnum {
     DAILY = "Daily",
-    WEEKLY = "Weekly",
-    MONTHLY = "Monthly",
-    YEARLY = "Yearly"
+    WEEKLY = "Weekly"
 }
 export declare enum ViewTypeEnum {
     DAILY = "Daily",
@@ -29,7 +27,7 @@ export declare const TaskSchema: z.ZodObject<{
     priority: z.ZodDefault<z.ZodEnum<typeof TaskPriorityEnum>>;
     deadline: z.ZodCoercedDate<unknown>;
     isRecurring: z.ZodBoolean;
-    recurringFrequency: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>>;
+    recurringFrequency: z.ZodNullable<z.ZodOptional<z.ZodEnum<typeof RecurringFrequencyEnum>>>;
     status: z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>;
     proofOfCompletion: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     assignedUserId: z.ZodOptional<z.ZodString>;
@@ -44,7 +42,7 @@ export declare const CreateTaskSchema: z.ZodObject<{
     status: z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>;
     deadline: z.ZodCoercedDate<unknown>;
     isRecurring: z.ZodBoolean;
-    recurringFrequency: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>>;
+    recurringFrequency: z.ZodNullable<z.ZodOptional<z.ZodEnum<typeof RecurringFrequencyEnum>>>;
     proofOfCompletion: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     title: z.ZodString;
     assignedUserId: z.ZodString;
@@ -57,7 +55,7 @@ export declare const UpdateTaskSchema: z.ZodObject<{
     priority: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskPriorityEnum>>>;
     deadline: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     isRecurring: z.ZodOptional<z.ZodBoolean>;
-    recurringFrequency: z.ZodOptional<z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>>>;
+    recurringFrequency: z.ZodOptional<z.ZodNullable<z.ZodOptional<z.ZodEnum<typeof RecurringFrequencyEnum>>>>;
     status: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>>;
     proofOfCompletion: z.ZodOptional<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
     assignedUserId: z.ZodOptional<z.ZodOptional<z.ZodString>>;
