@@ -35,6 +35,4 @@ exports.CreateUserSchema = exports.UserSchema.omit({
     updatedAt: true,
 });
 /* UPDATE DTO */
-exports.UpdateUserSchema = exports.UserSchema.partial().extend({
-    id: zod_1.z.string().uuid(),
-});
+exports.UpdateUserSchema = exports.UserSchema.partial().omit({ id: true });

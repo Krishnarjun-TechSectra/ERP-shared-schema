@@ -44,8 +44,6 @@ export const CreateUserSchema = UserSchema.omit({
 export type CreateUserDTO = z.infer<typeof CreateUserSchema>;
 
 /* UPDATE DTO */
-export const UpdateUserSchema = UserSchema.partial().extend({
-  id: z.string().uuid(),
-});
+export const UpdateUserSchema = UserSchema.partial().omit({ id: true });
 
 export type UpdateUserDTO = z.infer<typeof UpdateUserSchema>;

@@ -25,11 +25,10 @@ export declare const CreateUserSchema: z.ZodObject<{
 export type CreateUserDTO = z.infer<typeof CreateUserSchema>;
 export declare const UpdateUserSchema: z.ZodObject<{
     name: z.ZodOptional<z.ZodString>;
-    email: z.ZodOptional<z.ZodString>;
     role: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof RoleEnum>>>;
+    email: z.ZodOptional<z.ZodString>;
     kpiScore: z.ZodOptional<z.ZodOptional<z.ZodNumber>>;
     createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
-    id: z.ZodString;
 }, z.core.$strip>;
 export type UpdateUserDTO = z.infer<typeof UpdateUserSchema>;
