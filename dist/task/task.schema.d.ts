@@ -7,8 +7,7 @@ export declare enum TaskPriorityEnum {
 export declare enum TaskStatusEnum {
     TODO = "To Do",
     IN_PROGRESS = "In Progress",
-    COMPLETED = "Completed",
-    OVERDUE = "Overdue"
+    COMPLETED = "Completed"
 }
 export declare enum RecurringFrequencyEnum {
     DAILY = "Daily",
@@ -31,7 +30,20 @@ export declare const TaskSchema: z.ZodObject<{
     status: z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>;
     proofOfCompletion: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     assignedUserId: z.ZodOptional<z.ZodString>;
+    assignedUser: z.ZodOptional<z.ZodObject<{
+        id: z.ZodOptional<z.ZodString>;
+        name: z.ZodOptional<z.ZodString>;
+        email: z.ZodOptional<z.ZodString>;
+        role: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof import("../user").RoleEnum>>>;
+        createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+        updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+    }, z.core.$strip>>;
     kpiId: z.ZodOptional<z.ZodString>;
+    kpi: z.ZodOptional<z.ZodObject<{
+        title: z.ZodOptional<z.ZodString>;
+        description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+        colorCode: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
     createdAt: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     updatedAt: z.ZodOptional<z.ZodCoercedDate<unknown>>;
 }, z.core.$strip>;
@@ -44,6 +56,19 @@ export declare const CreateTaskSchema: z.ZodObject<{
     isRecurring: z.ZodBoolean;
     recurringFrequency: z.ZodNullable<z.ZodOptional<z.ZodEnum<typeof RecurringFrequencyEnum>>>;
     proofOfCompletion: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    assignedUser: z.ZodOptional<z.ZodObject<{
+        id: z.ZodOptional<z.ZodString>;
+        name: z.ZodOptional<z.ZodString>;
+        email: z.ZodOptional<z.ZodString>;
+        role: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof import("../user").RoleEnum>>>;
+        createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+        updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+    }, z.core.$strip>>;
+    kpi: z.ZodOptional<z.ZodObject<{
+        title: z.ZodOptional<z.ZodString>;
+        description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+        colorCode: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>;
     title: z.ZodString;
     assignedUserId: z.ZodString;
     kpiId: z.ZodString;
@@ -59,7 +84,20 @@ export declare const UpdateTaskSchema: z.ZodObject<{
     status: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>>;
     proofOfCompletion: z.ZodOptional<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
     assignedUserId: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    assignedUser: z.ZodOptional<z.ZodOptional<z.ZodObject<{
+        id: z.ZodOptional<z.ZodString>;
+        name: z.ZodOptional<z.ZodString>;
+        email: z.ZodOptional<z.ZodString>;
+        role: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof import("../user").RoleEnum>>>;
+        createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+        updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+    }, z.core.$strip>>>;
     kpiId: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+    kpi: z.ZodOptional<z.ZodOptional<z.ZodObject<{
+        title: z.ZodOptional<z.ZodString>;
+        description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
+        colorCode: z.ZodOptional<z.ZodString>;
+    }, z.core.$strip>>>;
     createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     id: z.ZodString;
@@ -72,10 +110,4 @@ export declare const TaskFilterSchema: z.ZodObject<{
     month: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
     year: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
 }, z.core.$strip>;
-/**
- * Notes:
- * - `assignedUserId`: filter tasks assigned to a specific user
- * - `viewType`: determines the time period to filter (daily, weekly, monthly, yearly)
- * - You can derive `startDate` and `endDate` based on `viewType` in service logic
- */
 export type TaskFilterDTO = z.infer<typeof TaskFilterSchema>;

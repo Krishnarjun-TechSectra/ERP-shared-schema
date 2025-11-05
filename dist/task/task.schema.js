@@ -2,9 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskFilterSchema = exports.UpdateTaskSchema = exports.CreateTaskSchema = exports.TaskSchema = exports.ViewTypeEnum = exports.RecurringFrequencyEnum = exports.TaskStatusEnum = exports.TaskPriorityEnum = void 0;
 const zod_1 = require("zod");
-/* -------------------------------
-   ENUM DEFINITIONS
---------------------------------*/
+const user_1 = require("../user");
+const kpi_1 = require("../kpi");
 var TaskPriorityEnum;
 (function (TaskPriorityEnum) {
     TaskPriorityEnum["LOW"] = "Low";
@@ -16,14 +15,12 @@ var TaskStatusEnum;
     TaskStatusEnum["TODO"] = "To Do";
     TaskStatusEnum["IN_PROGRESS"] = "In Progress";
     TaskStatusEnum["COMPLETED"] = "Completed";
-    TaskStatusEnum["OVERDUE"] = "Overdue";
 })(TaskStatusEnum || (exports.TaskStatusEnum = TaskStatusEnum = {}));
 var RecurringFrequencyEnum;
 (function (RecurringFrequencyEnum) {
     RecurringFrequencyEnum["DAILY"] = "Daily";
     RecurringFrequencyEnum["WEEKLY"] = "Weekly";
 })(RecurringFrequencyEnum || (exports.RecurringFrequencyEnum = RecurringFrequencyEnum = {}));
-// View type for filtering
 var ViewTypeEnum;
 (function (ViewTypeEnum) {
     ViewTypeEnum["DAILY"] = "Daily";
@@ -48,7 +45,9 @@ exports.TaskSchema = zod_1.z.object({
     status: zod_1.z.enum(TaskStatusEnum).default(TaskStatusEnum.TODO),
     proofOfCompletion: zod_1.z.string().nullable().optional(),
     assignedUserId: zod_1.z.string().uuid().optional(),
+    assignedUser: user_1.UserSchema.partial().optional(),
     kpiId: zod_1.z.string().uuid().optional(),
+    kpi: kpi_1.KpiSchema.partial().optional(),
     createdAt: zod_1.z.coerce.date().optional(),
     updatedAt: zod_1.z.coerce.date().optional(),
 });

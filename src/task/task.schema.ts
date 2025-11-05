@@ -1,8 +1,8 @@
 import { z } from "zod";
+import { UserSchema } from "../user";
+import { KpiSchema } from "../kpi";
 
-/* -------------------------------
-   ENUM DEFINITIONS
---------------------------------*/
+
 export enum TaskPriorityEnum {
   LOW = "Low",
   MEDIUM = "Medium",
@@ -13,7 +13,6 @@ export enum TaskStatusEnum {
   TODO = "To Do",
   IN_PROGRESS = "In Progress",
   COMPLETED = "Completed",
-  OVERDUE = "Overdue",
 }
 
 export enum RecurringFrequencyEnum {
@@ -21,7 +20,6 @@ export enum RecurringFrequencyEnum {
   WEEKLY = "Weekly",
 }
 
-// View type for filtering
 export enum ViewTypeEnum {
   DAILY = "Daily",
   WEEKLY = "Weekly",
@@ -47,7 +45,9 @@ export const TaskSchema = z.object({
   status: z.enum(TaskStatusEnum).default(TaskStatusEnum.TODO),
   proofOfCompletion: z.string().nullable().optional(),
   assignedUserId: z.string().uuid().optional(),
+  assignedUser: UserSchema.partial().optional(),
   kpiId: z.string().uuid().optional(),
+  kpi: KpiSchema.partial().optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
 });
@@ -89,11 +89,6 @@ export const TaskFilterSchema = z.object({
   month: z.coerce.number().min(1).max(12).optional(), // "11" → 11
   year: z.coerce.number().min(2000).max(2100).optional(), // "2025" → 2025
 });
-/**
- * Notes:
- * - `assignedUserId`: filter tasks assigned to a specific user
- * - `viewType`: determines the time period to filter (daily, weekly, monthly, yearly)
- * - You can derive `startDate` and `endDate` based on `viewType` in service logic
- */
+
 
 export type TaskFilterDTO = z.infer<typeof TaskFilterSchema>;
