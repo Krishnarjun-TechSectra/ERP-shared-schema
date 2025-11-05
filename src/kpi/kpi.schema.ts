@@ -1,6 +1,5 @@
 // shared/kpi.schema.ts
 import { z } from "zod";
-import { createZodDto } from "nestjs-zod";
 
 export const KpiSchema = z.object({
   title: z.string().nonempty("Title is required"),
@@ -19,5 +18,5 @@ export type CreateKpi = z.infer<typeof CreateKpiSchema>;
 export type UpdateKpi = z.infer<typeof UpdateKpiSchema>;
 
 // ✅ DTO classes for NestJS
-export class CreateKpiDto extends createZodDto(CreateKpiSchema) {}
-export class UpdateKpiDto extends createZodDto(UpdateKpiSchema) {}
+export type CreateKpiDto = z.infer<typeof CreateKpiSchema>;
+export type UpdateKpiDto = z.infer<typeof UpdateKpiSchema>;
