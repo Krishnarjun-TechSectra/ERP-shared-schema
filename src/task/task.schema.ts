@@ -76,10 +76,7 @@ export type CreateTaskDTO = z.infer<typeof CreateTaskSchema>;
    UPDATE TASK DTO
 --------------------------------*/
 
-export const UpdateTaskSchema = TaskSchema.partial().extend({
-  id: z.string().uuid(),
-});
-
+export const UpdateTaskSchema = TaskSchema.partial().omit({ id: true });
 export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 
 export const TaskFilterSchema = z.object({

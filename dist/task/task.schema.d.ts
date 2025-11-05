@@ -75,13 +75,15 @@ export declare const CreateTaskSchema: z.ZodObject<{
 }, z.core.$strip>;
 export type CreateTaskDTO = z.infer<typeof CreateTaskSchema>;
 export declare const UpdateTaskSchema: z.ZodObject<{
+    priority: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskPriorityEnum>>>;
     title: z.ZodOptional<z.ZodString>;
     description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
-    priority: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskPriorityEnum>>>;
+    status: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>>;
+    createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+    updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     deadline: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     isRecurring: z.ZodOptional<z.ZodBoolean>;
     recurringFrequency: z.ZodOptional<z.ZodNullable<z.ZodOptional<z.ZodEnum<typeof RecurringFrequencyEnum>>>>;
-    status: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>>;
     proofOfCompletion: z.ZodOptional<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
     assignedUserId: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     assignedUser: z.ZodOptional<z.ZodOptional<z.ZodObject<{
@@ -98,9 +100,6 @@ export declare const UpdateTaskSchema: z.ZodObject<{
         description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
         colorCode: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>>;
-    createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
-    updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
-    id: z.ZodString;
 }, z.core.$strip>;
 export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 export declare const TaskFilterSchema: z.ZodObject<{

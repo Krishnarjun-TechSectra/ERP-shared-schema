@@ -68,9 +68,7 @@ exports.CreateTaskSchema = exports.TaskSchema.omit({
 /* -------------------------------
    UPDATE TASK DTO
 --------------------------------*/
-exports.UpdateTaskSchema = exports.TaskSchema.partial().extend({
-    id: zod_1.z.string().uuid(),
-});
+exports.UpdateTaskSchema = exports.TaskSchema.partial().omit({ id: true });
 exports.TaskFilterSchema = zod_1.z.object({
     assignedUserId: zod_1.z.string().optional(),
     viewType: zod_1.z.enum(ViewTypeEnum).optional(),
