@@ -23,6 +23,11 @@ export const UserSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email"),
   role: z.enum(RoleEnum).default(RoleEnum.EMPLOYEE),
+  kpiScore: z
+    .number()
+    .min(0, "The min value mus be greater than 0")
+    .max(100, "The max value must be less that 100")
+    .optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
 });

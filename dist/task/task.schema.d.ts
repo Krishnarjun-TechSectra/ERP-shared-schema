@@ -35,6 +35,7 @@ export declare const TaskSchema: z.ZodObject<{
         name: z.ZodOptional<z.ZodString>;
         email: z.ZodOptional<z.ZodString>;
         role: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof import("../user").RoleEnum>>>;
+        kpiScore: z.ZodOptional<z.ZodOptional<z.ZodNumber>>;
         createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
         updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     }, z.core.$strip>>;
@@ -61,6 +62,7 @@ export declare const CreateTaskSchema: z.ZodObject<{
         name: z.ZodOptional<z.ZodString>;
         email: z.ZodOptional<z.ZodString>;
         role: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof import("../user").RoleEnum>>>;
+        kpiScore: z.ZodOptional<z.ZodOptional<z.ZodNumber>>;
         createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
         updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     }, z.core.$strip>>;
@@ -91,6 +93,7 @@ export declare const UpdateTaskSchema: z.ZodObject<{
         name: z.ZodOptional<z.ZodString>;
         email: z.ZodOptional<z.ZodString>;
         role: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof import("../user").RoleEnum>>>;
+        kpiScore: z.ZodOptional<z.ZodOptional<z.ZodNumber>>;
         createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
         updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     }, z.core.$strip>>>;

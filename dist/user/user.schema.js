@@ -20,6 +20,11 @@ exports.UserSchema = zod_1.z.object({
     name: zod_1.z.string().min(1, "Name is required"),
     email: zod_1.z.string().email("Invalid email"),
     role: zod_1.z.enum(RoleEnum).default(RoleEnum.EMPLOYEE),
+    kpiScore: zod_1.z
+        .number()
+        .min(0, "The min value mus be greater than 0")
+        .max(100, "The max value must be less that 100")
+        .optional(),
     createdAt: zod_1.z.coerce.date().optional(),
     updatedAt: zod_1.z.coerce.date().optional(),
 });
