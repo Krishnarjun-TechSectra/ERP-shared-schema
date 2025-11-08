@@ -21,10 +21,10 @@ export enum RecurringFrequencyEnum {
 }
 
 export enum ViewTypeEnum {
-  DAILY = "Daily",
-  WEEKLY = "Weekly",
-  MONTHLY = "Monthly",
-  YEARLY = "Yearly",
+  DAILY = "daily",
+  WEEKLY = "weekly",
+  MONTHLY = "monthly",
+  YEARLY = "yearly",
 }
 
 /* -------------------------------
