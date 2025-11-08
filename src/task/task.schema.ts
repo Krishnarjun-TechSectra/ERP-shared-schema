@@ -80,11 +80,10 @@ export const UpdateTaskSchema = TaskSchema.partial().omit({ id: true });
 export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 
 export const TaskFilterSchema = z.object({
+  status: z.nativeEnum(TaskStatusEnum).optional(),
   assignedUserId: z.string().optional(),
-  viewType: z.enum(ViewTypeEnum).optional(),
-  date: z.coerce.date().optional(), // will handle "2025-11-05T00:00:00Z"
-  month: z.coerce.number().min(1).max(12).optional(), // "11" → 11
-  year: z.coerce.number().min(2000).max(2100).optional(), // "2025" → 2025
+  viewType: z.nativeEnum(ViewTypeEnum).optional(),
+  selectedDate: z.string(),
 });
 
 export type TaskFilterDTO = z.infer<typeof TaskFilterSchema>;

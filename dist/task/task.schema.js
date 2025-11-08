@@ -71,9 +71,8 @@ exports.CreateTaskSchema = exports.TaskSchema.omit({
 --------------------------------*/
 exports.UpdateTaskSchema = exports.TaskSchema.partial().omit({ id: true });
 exports.TaskFilterSchema = zod_1.z.object({
+    status: zod_1.z.nativeEnum(TaskStatusEnum).optional(),
     assignedUserId: zod_1.z.string().optional(),
-    viewType: zod_1.z.enum(ViewTypeEnum).optional(),
-    date: zod_1.z.coerce.date().optional(), // will handle "2025-11-05T00:00:00Z"
-    month: zod_1.z.coerce.number().min(1).max(12).optional(), // "11" → 11
-    year: zod_1.z.coerce.number().min(2000).max(2100).optional(), // "2025" → 2025
+    viewType: zod_1.z.nativeEnum(ViewTypeEnum).optional(),
+    selectedDate: zod_1.z.string(),
 });

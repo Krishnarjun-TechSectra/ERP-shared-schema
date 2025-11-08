@@ -107,10 +107,9 @@ export declare const UpdateTaskSchema: z.ZodObject<{
 }, z.core.$strip>;
 export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 export declare const TaskFilterSchema: z.ZodObject<{
+    status: z.ZodOptional<z.ZodEnum<typeof TaskStatusEnum>>;
     assignedUserId: z.ZodOptional<z.ZodString>;
     viewType: z.ZodOptional<z.ZodEnum<typeof ViewTypeEnum>>;
-    date: z.ZodOptional<z.ZodCoercedDate<unknown>>;
-    month: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
-    year: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+    selectedDate: z.ZodString;
 }, z.core.$strip>;
 export type TaskFilterDTO = z.infer<typeof TaskFilterSchema>;
