@@ -110,6 +110,6 @@ export declare const TaskFilterSchema: z.ZodObject<{
     status: z.ZodOptional<z.ZodEnum<typeof TaskStatusEnum>>;
     assignedUserId: z.ZodOptional<z.ZodString>;
     viewType: z.ZodOptional<z.ZodEnum<typeof ViewTypeEnum>>;
-    selectedDate: z.ZodString;
+    selectedDate: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
 export type TaskFilterDTO = z.infer<typeof TaskFilterSchema>;

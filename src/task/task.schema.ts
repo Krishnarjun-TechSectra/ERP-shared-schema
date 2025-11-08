@@ -79,11 +79,21 @@ export type CreateTaskDTO = z.infer<typeof CreateTaskSchema>;
 export const UpdateTaskSchema = TaskSchema.partial().omit({ id: true });
 export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 
-export const TaskFilterSchema = z.object({
-  status: z.nativeEnum(TaskStatusEnum).optional(),
-  assignedUserId: z.string().optional(),
-  viewType: z.nativeEnum(ViewTypeEnum).optional(),
-  selectedDate: z.string(),
-});
+export const TaskFilterSchema = z
+  .object({
+    status: z.nativeEnum(TaskStatusEnum).optional(),
+    assignedUserId: z.string().optional(),
+    viewType: z.nativeEnum(ViewTypeEnum).optional(),
+    selectedDate: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.viewType && !data.selectedDate) {
+      ctx.addIssue({
+        path: ["selectedDate"],
+        code: z.ZodIssueCode.custom,
+        message: "selectedDate is required when viewType is provided",
+      });
+    }
+  });
 
 export type TaskFilterDTO = z.infer<typeof TaskFilterSchema>;

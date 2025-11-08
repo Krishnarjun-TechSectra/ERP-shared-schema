@@ -70,9 +70,19 @@ exports.CreateTaskSchema = exports.TaskSchema.omit({
    UPDATE TASK DTO
 --------------------------------*/
 exports.UpdateTaskSchema = exports.TaskSchema.partial().omit({ id: true });
-exports.TaskFilterSchema = zod_1.z.object({
+exports.TaskFilterSchema = zod_1.z
+    .object({
     status: zod_1.z.nativeEnum(TaskStatusEnum).optional(),
     assignedUserId: zod_1.z.string().optional(),
     viewType: zod_1.z.nativeEnum(ViewTypeEnum).optional(),
-    selectedDate: zod_1.z.string(),
+    selectedDate: zod_1.z.string().optional(),
+})
+    .superRefine((data, ctx) => {
+    if (data.viewType && !data.selectedDate) {
+        ctx.addIssue({
+            path: ["selectedDate"],
+            code: zod_1.z.ZodIssueCode.custom,
+            message: "selectedDate is required when viewType is provided",
+        });
+    }
 });
