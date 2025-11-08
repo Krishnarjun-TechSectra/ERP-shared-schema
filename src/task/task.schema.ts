@@ -48,6 +48,7 @@ export const TaskSchema = z.object({
   assignedUser: UserSchema.partial().optional(),
   kpiId: z.string().uuid().optional(),
   kpi: KpiSchema.partial().optional(),
+  completionDate: z.coerce.date().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
 });
@@ -55,7 +56,7 @@ export const TaskSchema = z.object({
 export type TaskSchemaType = z.infer<typeof TaskSchema>;
 
 /* -------------------------------
-   CREATE TASK DTO
+   CREATE TASK Dto
 --------------------------------*/
 
 export const CreateTaskSchema = TaskSchema.omit({
@@ -78,6 +79,10 @@ export type CreateTaskDTO = z.infer<typeof CreateTaskSchema>;
 
 export const UpdateTaskSchema = TaskSchema.partial().omit({ id: true });
 export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
+
+/* -------------------------------
+   FILTER DTO
+--------------------------------*/
 
 export const TaskFilterSchema = z
   .object({

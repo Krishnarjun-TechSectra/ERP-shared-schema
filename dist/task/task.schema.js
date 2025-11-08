@@ -49,11 +49,12 @@ exports.TaskSchema = zod_1.z.object({
     assignedUser: user_1.UserSchema.partial().optional(),
     kpiId: zod_1.z.string().uuid().optional(),
     kpi: kpi_1.KpiSchema.partial().optional(),
+    completionDate: zod_1.z.coerce.date().optional().nullable(),
     createdAt: zod_1.z.coerce.date().optional(),
     updatedAt: zod_1.z.coerce.date().optional(),
 });
 /* -------------------------------
-   CREATE TASK DTO
+   CREATE TASK Dto
 --------------------------------*/
 exports.CreateTaskSchema = exports.TaskSchema.omit({
     id: true,
@@ -70,6 +71,9 @@ exports.CreateTaskSchema = exports.TaskSchema.omit({
    UPDATE TASK DTO
 --------------------------------*/
 exports.UpdateTaskSchema = exports.TaskSchema.partial().omit({ id: true });
+/* -------------------------------
+   FILTER DTO
+--------------------------------*/
 exports.TaskFilterSchema = zod_1.z
     .object({
     status: zod_1.z.nativeEnum(TaskStatusEnum).optional(),

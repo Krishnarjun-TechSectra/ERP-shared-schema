@@ -46,6 +46,7 @@ export declare const TaskSchema: z.ZodObject<{
         description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
         colorCode: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>;
+    completionDate: z.ZodNullable<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     createdAt: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     updatedAt: z.ZodOptional<z.ZodCoercedDate<unknown>>;
 }, z.core.$strip>;
@@ -72,6 +73,7 @@ export declare const CreateTaskSchema: z.ZodObject<{
         description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
         colorCode: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>;
+    completionDate: z.ZodNullable<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     title: z.ZodString;
     assignedUserId: z.ZodString;
     kpiId: z.ZodString;
@@ -104,6 +106,7 @@ export declare const UpdateTaskSchema: z.ZodObject<{
         description: z.ZodOptional<z.ZodOptional<z.ZodString>>;
         colorCode: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>>;
+    completionDate: z.ZodOptional<z.ZodNullable<z.ZodOptional<z.ZodCoercedDate<unknown>>>>;
 }, z.core.$strip>;
 export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 export declare const TaskFilterSchema: z.ZodObject<{
