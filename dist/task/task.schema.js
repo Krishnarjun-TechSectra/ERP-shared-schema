@@ -24,10 +24,10 @@ var RecurringFrequencyEnum;
 })(RecurringFrequencyEnum || (exports.RecurringFrequencyEnum = RecurringFrequencyEnum = {}));
 var ViewTypeEnum;
 (function (ViewTypeEnum) {
-    ViewTypeEnum["DAILY"] = "Daily";
-    ViewTypeEnum["WEEKLY"] = "Weekly";
-    ViewTypeEnum["MONTHLY"] = "Monthly";
-    ViewTypeEnum["YEARLY"] = "Yearly";
+    ViewTypeEnum["DAILY"] = "daily";
+    ViewTypeEnum["WEEKLY"] = "weekly";
+    ViewTypeEnum["MONTHLY"] = "monthly";
+    ViewTypeEnum["YEARLY"] = "yearly";
 })(ViewTypeEnum || (exports.ViewTypeEnum = ViewTypeEnum = {}));
 /* -------------------------------
    SHARED ZOD SCHEMA

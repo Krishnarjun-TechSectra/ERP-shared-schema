@@ -15,10 +15,10 @@ export declare enum RecurringFrequencyEnum {
     WEEKLY = "Weekly"
 }
 export declare enum ViewTypeEnum {
-    DAILY = "Daily",
-    WEEKLY = "Weekly",
-    MONTHLY = "Monthly",
-    YEARLY = "Yearly"
+    DAILY = "daily",
+    WEEKLY = "weekly",
+    MONTHLY = "monthly",
+    YEARLY = "yearly"
 }
 export declare const TaskSchema: z.ZodObject<{
     id: z.ZodString;
