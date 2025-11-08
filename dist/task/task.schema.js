@@ -15,6 +15,7 @@ var TaskStatusEnum;
     TaskStatusEnum["TODO"] = "To Do";
     TaskStatusEnum["IN_PROGRESS"] = "In Progress";
     TaskStatusEnum["COMPLETED"] = "Completed";
+    TaskStatusEnum["OVERDUE"] = "Overdue";
 })(TaskStatusEnum || (exports.TaskStatusEnum = TaskStatusEnum = {}));
 var RecurringFrequencyEnum;
 (function (RecurringFrequencyEnum) {

@@ -2,7 +2,6 @@ import { z } from "zod";
 import { UserSchema } from "../user";
 import { KpiSchema } from "../kpi";
 
-
 export enum TaskPriorityEnum {
   LOW = "Low",
   MEDIUM = "Medium",
@@ -13,6 +12,7 @@ export enum TaskStatusEnum {
   TODO = "To Do",
   IN_PROGRESS = "In Progress",
   COMPLETED = "Completed",
+  OVERDUE = "Overdue",
 }
 
 export enum RecurringFrequencyEnum {
@@ -86,6 +86,5 @@ export const TaskFilterSchema = z.object({
   month: z.coerce.number().min(1).max(12).optional(), // "11" → 11
   year: z.coerce.number().min(2000).max(2100).optional(), // "2025" → 2025
 });
-
 
 export type TaskFilterDTO = z.infer<typeof TaskFilterSchema>;

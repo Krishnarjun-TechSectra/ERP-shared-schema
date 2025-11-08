@@ -7,7 +7,8 @@ export declare enum TaskPriorityEnum {
 export declare enum TaskStatusEnum {
     TODO = "To Do",
     IN_PROGRESS = "In Progress",
-    COMPLETED = "Completed"
+    COMPLETED = "Completed",
+    OVERDUE = "Overdue"
 }
 export declare enum RecurringFrequencyEnum {
     DAILY = "Daily",
