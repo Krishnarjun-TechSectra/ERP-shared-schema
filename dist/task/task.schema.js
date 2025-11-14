@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TaskFilterSchema = exports.UpdateTaskSchema = exports.CreateTaskInstanceSchema = exports.TaskInstanceSchema = exports.UpdateTaskMasterSchema = exports.CreateTaskMasterSchema = exports.TaskMasterSchema = exports.ViewTypeEnum = exports.RecurringFrequencyEnum = exports.TaskStatusEnum = exports.TaskPriorityEnum = void 0;
+exports.TaskFilterSchema = exports.UpdateTaskSchema = exports.CreateTaskSchema = exports.TaskInstanceSchema = exports.UpdateTaskMasterSchema = exports.CreateTaskMasterSchema = exports.TaskMasterSchema = exports.ViewTypeEnum = exports.RecurringFrequencyEnum = exports.TaskStatusEnum = exports.TaskPriorityEnum = void 0;
 const zod_1 = require("zod");
 const user_1 = require("../user");
 const kpi_1 = require("../kpi");
@@ -81,12 +81,25 @@ exports.TaskInstanceSchema = zod_1.z.object({
     updatedAt: zod_1.z.coerce.date().optional(),
 });
 /* ------------ CREATE TASK INSTANCE DTO ------------ */
-exports.CreateTaskInstanceSchema = exports.TaskInstanceSchema.omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-    completionDate: true,
-    proofOfCompletion: true,
+exports.CreateTaskSchema = zod_1.z.object({
+    // ------- MASTER FIELDS -------
+    title: zod_1.z.string().min(1, "Title is required"),
+    description: zod_1.z.string().optional(),
+    priority: zod_1.z.enum(TaskPriorityEnum).default(TaskPriorityEnum.MEDIUM),
+    isRecurring: zod_1.z.boolean(),
+    recurringFrequency: zod_1.z
+        .nativeEnum(RecurringFrequencyEnum)
+        .nullable()
+        .optional(),
+    assignedUserId: zod_1.z
+        .string()
+        .uuid({ message: "Assigned user ID must be a valid UUID" }),
+    kpiId: zod_1.z.string().uuid({ message: "KPI ID must be a valid UUID" }),
+    // ------- INSTANCE FIELDS -------
+    deadline: zod_1.z.coerce.date(),
+    status: zod_1.z.enum(TaskStatusEnum).default(TaskStatusEnum.TODO),
+    completionDate: zod_1.z.coerce.date().nullable().optional(),
+    proofOfCompletion: zod_1.z.string().nullable().optional(),
 });
 /* ------------ UPDATE TASK INSTANCE DTO ------------ */
 exports.UpdateTaskSchema = zod_1.z.object({

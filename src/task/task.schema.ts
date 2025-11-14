@@ -103,16 +103,33 @@ export type TaskInstanceSchemaType = z.infer<typeof TaskInstanceSchema>;
 
 /* ------------ CREATE TASK INSTANCE DTO ------------ */
 
-export const CreateTaskInstanceSchema = TaskInstanceSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-  completionDate: true,
-  proofOfCompletion: true,
+export const CreateTaskSchema = z.object({
+  // ------- MASTER FIELDS -------
+  title: z.string().min(1, "Title is required"),
+  description: z.string().optional(),
+  priority: z.enum(TaskPriorityEnum).default(TaskPriorityEnum.MEDIUM),
+
+  isRecurring: z.boolean(),
+  recurringFrequency: z
+    .nativeEnum(RecurringFrequencyEnum)
+    .nullable()
+    .optional(),
+
+  assignedUserId: z
+    .string()
+    .uuid({ message: "Assigned user ID must be a valid UUID" }),
+  kpiId: z.string().uuid({ message: "KPI ID must be a valid UUID" }),
+
+  // ------- INSTANCE FIELDS -------
+  deadline: z.coerce.date(),
+  status: z.enum(TaskStatusEnum).default(TaskStatusEnum.TODO),
+  completionDate: z.coerce.date().nullable().optional(),
+  proofOfCompletion: z.string().nullable().optional(),
 });
 
+
 export type CreateTaskDTO = z.infer<
-  typeof CreateTaskInstanceSchema
+  typeof CreateTaskSchema
 >;
 
 /* ------------ UPDATE TASK INSTANCE DTO ------------ */
