@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TaskFilterSchema = exports.UpdateTaskInstanceSchema = exports.CreateTaskInstanceSchema = exports.TaskInstanceSchema = exports.UpdateTaskMasterSchema = exports.CreateTaskMasterSchema = exports.TaskMasterSchema = exports.ViewTypeEnum = exports.RecurringFrequencyEnum = exports.TaskStatusEnum = exports.TaskPriorityEnum = void 0;
+exports.TaskFilterSchema = exports.UpdateTaskSchema = exports.CreateTaskInstanceSchema = exports.TaskInstanceSchema = exports.UpdateTaskMasterSchema = exports.CreateTaskMasterSchema = exports.TaskMasterSchema = exports.ViewTypeEnum = exports.RecurringFrequencyEnum = exports.TaskStatusEnum = exports.TaskPriorityEnum = void 0;
 const zod_1 = require("zod");
 const user_1 = require("../user");
 const kpi_1 = require("../kpi");
@@ -89,9 +89,23 @@ exports.CreateTaskInstanceSchema = exports.TaskInstanceSchema.omit({
     proofOfCompletion: true,
 });
 /* ------------ UPDATE TASK INSTANCE DTO ------------ */
-exports.UpdateTaskInstanceSchema = exports.TaskInstanceSchema.partial().omit({
-    id: true,
-    taskMasterId: true,
+exports.UpdateTaskSchema = zod_1.z.object({
+    // TaskMaster editable fields
+    title: zod_1.z.string().optional(),
+    description: zod_1.z.string().optional(),
+    priority: zod_1.z.enum(TaskPriorityEnum).optional(),
+    isRecurring: zod_1.z.boolean().optional(),
+    recurringFrequency: zod_1.z
+        .nativeEnum(RecurringFrequencyEnum)
+        .nullable()
+        .optional(),
+    assignedUserId: zod_1.z.string().uuid().optional(),
+    kpiId: zod_1.z.string().uuid().optional(),
+    // TaskInstance editable fields
+    status: zod_1.z.enum(TaskStatusEnum).optional(),
+    deadline: zod_1.z.coerce.date().optional(),
+    completionDate: zod_1.z.coerce.date().nullable().optional(),
+    proofOfCompletion: zod_1.z.string().nullable().optional(),
 });
 /* ============================================
    FILTER SCHEMA (applies to instances only)

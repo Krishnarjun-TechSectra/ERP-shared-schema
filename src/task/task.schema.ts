@@ -117,13 +117,28 @@ export type CreateTaskDTO = z.infer<
 
 /* ------------ UPDATE TASK INSTANCE DTO ------------ */
 
-export const UpdateTaskInstanceSchema = TaskInstanceSchema.partial().omit({
-  id: true,
-  taskMasterId: true,
+export const UpdateTaskSchema = z.object({
+  // TaskMaster editable fields
+  title: z.string().optional(),
+  description: z.string().optional(),
+  priority: z.enum(TaskPriorityEnum).optional(),
+  isRecurring: z.boolean().optional(),
+  recurringFrequency: z
+    .nativeEnum(RecurringFrequencyEnum)
+    .nullable()
+    .optional(),
+  assignedUserId: z.string().uuid().optional(),
+  kpiId: z.string().uuid().optional(),
+
+  // TaskInstance editable fields
+  status: z.enum(TaskStatusEnum).optional(),
+  deadline: z.coerce.date().optional(),
+  completionDate: z.coerce.date().nullable().optional(),
+  proofOfCompletion: z.string().nullable().optional(),
 });
 
 export type UpdateTaskDTO = z.infer<
-  typeof UpdateTaskInstanceSchema
+  typeof UpdateTaskSchema
 >;
 
 /* ============================================

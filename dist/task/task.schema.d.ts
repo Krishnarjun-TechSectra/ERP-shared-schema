@@ -114,15 +114,20 @@ export declare const CreateTaskInstanceSchema: z.ZodObject<{
     deadline: z.ZodCoercedDate<unknown>;
 }, z.core.$strip>;
 export type CreateTaskDTO = z.infer<typeof CreateTaskInstanceSchema>;
-export declare const UpdateTaskInstanceSchema: z.ZodObject<{
-    status: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>>;
-    createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
-    updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+export declare const UpdateTaskSchema: z.ZodObject<{
+    title: z.ZodOptional<z.ZodString>;
+    description: z.ZodOptional<z.ZodString>;
+    priority: z.ZodOptional<z.ZodEnum<typeof TaskPriorityEnum>>;
+    isRecurring: z.ZodOptional<z.ZodBoolean>;
+    recurringFrequency: z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>;
+    assignedUserId: z.ZodOptional<z.ZodString>;
+    kpiId: z.ZodOptional<z.ZodString>;
+    status: z.ZodOptional<z.ZodEnum<typeof TaskStatusEnum>>;
     deadline: z.ZodOptional<z.ZodCoercedDate<unknown>>;
-    completionDate: z.ZodOptional<z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>>;
-    proofOfCompletion: z.ZodOptional<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+    completionDate: z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>;
+    proofOfCompletion: z.ZodOptional<z.ZodNullable<z.ZodString>>;
 }, z.core.$strip>;
-export type UpdateTaskDTO = z.infer<typeof UpdateTaskInstanceSchema>;
+export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 export declare const TaskFilterSchema: z.ZodObject<{
     status: z.ZodOptional<z.ZodEnum<typeof TaskStatusEnum>>;
     assignedUserId: z.ZodOptional<z.ZodString>;
