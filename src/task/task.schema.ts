@@ -2,6 +2,10 @@ import { z } from "zod";
 import { UserSchema } from "../user";
 import { KpiSchema } from "../kpi";
 
+/* -------------------------------
+   ENUMS
+--------------------------------*/
+
 export enum TaskPriorityEnum {
   LOW = "Low",
   MEDIUM = "Medium",
@@ -27,39 +31,36 @@ export enum ViewTypeEnum {
   YEARLY = "yearly",
 }
 
-/* -------------------------------
-   SHARED ZOD SCHEMA
---------------------------------*/
+/* ============================================
+   MASTER TASK (Recurring Template)
+============================================ */
 
-export const TaskSchema = z.object({
+export const TaskMasterSchema = z.object({
   id: z.string().uuid(),
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
   priority: z.enum(TaskPriorityEnum).default(TaskPriorityEnum.MEDIUM),
-  deadline: z.coerce.date(),
+
+  // RECURRING INFO
   isRecurring: z.boolean(),
-  recurringFrequency: z
-    .nativeEnum(RecurringFrequencyEnum)
-    .optional()
-    .nullable(),
-  status: z.enum(TaskStatusEnum).default(TaskStatusEnum.TODO),
-  proofOfCompletion: z.string().nullable().optional(),
+  recurringFrequency: z.nativeEnum(RecurringFrequencyEnum).nullable().optional(),
+
+  // ASSIGNMENT
   assignedUserId: z.string().uuid().optional(),
   assignedUser: UserSchema.partial().optional(),
+
   kpiId: z.string().uuid().optional(),
   kpi: KpiSchema.partial().optional(),
-  completionDate: z.coerce.date().optional().nullable(),
+
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
 });
 
-export type TaskSchemaType = z.infer<typeof TaskSchema>;
+export type TaskMasterSchemaType = z.infer<typeof TaskMasterSchema>;
 
-/* -------------------------------
-   CREATE TASK Dto
---------------------------------*/
+/* ------------ CREATE TASK MASTER DTO ------------ */
 
-export const CreateTaskSchema = TaskSchema.omit({
+export const CreateTaskMasterSchema = TaskMasterSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
@@ -71,18 +72,63 @@ export const CreateTaskSchema = TaskSchema.omit({
   kpiId: z.string().uuid({ message: "KPI ID must be a valid UUID" }),
 });
 
-export type CreateTaskDTO = z.infer<typeof CreateTaskSchema>;
+export type CreateTaskMasterDTO = z.infer<typeof CreateTaskMasterSchema>;
 
-/* -------------------------------
-   UPDATE TASK DTO
---------------------------------*/
+/* ------------ UPDATE TASK MASTER DTO ------------ */
 
-export const UpdateTaskSchema = TaskSchema.partial().omit({ id: true });
-export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
+export const UpdateTaskMasterSchema = TaskMasterSchema.partial().omit({
+  id: true,
+});
+export type UpdateTaskMasterDTO = z.infer<typeof UpdateTaskMasterSchema>;
 
-/* -------------------------------
-   FILTER DTO
---------------------------------*/
+/* ============================================
+   TASK INSTANCE (Actual Daily/Weekly Tasks)
+============================================ */
+
+export const TaskInstanceSchema = z.object({
+  id: z.string().uuid(),
+  taskMasterId: z.string().uuid(),
+
+  status: z.enum(TaskStatusEnum).default(TaskStatusEnum.TODO),
+  deadline: z.coerce.date(),
+
+  completionDate: z.coerce.date().nullable().optional(),
+  proofOfCompletion: z.string().nullable().optional(),
+
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
+});
+
+export type TaskInstanceSchemaType = z.infer<typeof TaskInstanceSchema>;
+
+/* ------------ CREATE TASK INSTANCE DTO ------------ */
+
+export const CreateTaskInstanceSchema = TaskInstanceSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  completionDate: true,
+  proofOfCompletion: true,
+});
+
+export type CreateTaskInstanceDTO = z.infer<
+  typeof CreateTaskInstanceSchema
+>;
+
+/* ------------ UPDATE TASK INSTANCE DTO ------------ */
+
+export const UpdateTaskInstanceSchema = TaskInstanceSchema.partial().omit({
+  id: true,
+  taskMasterId: true,
+});
+
+export type UpdateTaskInstanceDTO = z.infer<
+  typeof UpdateTaskInstanceSchema
+>;
+
+/* ============================================
+   FILTER SCHEMA (applies to instances only)
+============================================ */
 
 export const TaskFilterSchema = z
   .object({
