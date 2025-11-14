@@ -111,7 +111,7 @@ export const CreateTaskInstanceSchema = TaskInstanceSchema.omit({
   proofOfCompletion: true,
 });
 
-export type CreateTaskInstanceDTO = z.infer<
+export type CreateTaskDTO = z.infer<
   typeof CreateTaskInstanceSchema
 >;
 
@@ -122,7 +122,7 @@ export const UpdateTaskInstanceSchema = TaskInstanceSchema.partial().omit({
   taskMasterId: true,
 });
 
-export type UpdateTaskInstanceDTO = z.infer<
+export type UpdateTaskDTO = z.infer<
   typeof UpdateTaskInstanceSchema
 >;
 

@@ -113,7 +113,7 @@ export declare const CreateTaskInstanceSchema: z.ZodObject<{
     taskMasterId: z.ZodString;
     deadline: z.ZodCoercedDate<unknown>;
 }, z.core.$strip>;
-export type CreateTaskInstanceDTO = z.infer<typeof CreateTaskInstanceSchema>;
+export type CreateTaskDTO = z.infer<typeof CreateTaskInstanceSchema>;
 export declare const UpdateTaskInstanceSchema: z.ZodObject<{
     status: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>>;
     createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
@@ -122,7 +122,7 @@ export declare const UpdateTaskInstanceSchema: z.ZodObject<{
     completionDate: z.ZodOptional<z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>>;
     proofOfCompletion: z.ZodOptional<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
 }, z.core.$strip>;
-export type UpdateTaskInstanceDTO = z.infer<typeof UpdateTaskInstanceSchema>;
+export type UpdateTaskDTO = z.infer<typeof UpdateTaskInstanceSchema>;
 export declare const TaskFilterSchema: z.ZodObject<{
     status: z.ZodOptional<z.ZodEnum<typeof TaskStatusEnum>>;
     assignedUserId: z.ZodOptional<z.ZodString>;
