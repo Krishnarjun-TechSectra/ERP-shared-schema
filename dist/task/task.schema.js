@@ -42,7 +42,10 @@ exports.TaskMasterSchema = zod_1.z.object({
     priority: zod_1.z.enum(TaskPriorityEnum).default(TaskPriorityEnum.MEDIUM),
     // RECURRING INFO
     isRecurring: zod_1.z.boolean(),
-    recurringFrequency: zod_1.z.nativeEnum(RecurringFrequencyEnum).nullable().optional(),
+    recurringFrequency: zod_1.z
+        .nativeEnum(RecurringFrequencyEnum)
+        .nullable()
+        .optional(),
     recurringEndDate: zod_1.z.coerce.date().nullable().optional(),
     // ASSIGNMENT
     assignedUserId: zod_1.z.string().uuid().optional(),
@@ -92,6 +95,7 @@ exports.CreateTaskSchema = zod_1.z.object({
         .nativeEnum(RecurringFrequencyEnum)
         .nullable()
         .optional(),
+    recurringEndDate: zod_1.z.coerce.date().nullable().optional(),
     assignedUserId: zod_1.z
         .string()
         .uuid({ message: "Assigned user ID must be a valid UUID" }),
@@ -115,6 +119,7 @@ exports.UpdateTaskSchema = zod_1.z.object({
         .optional(),
     assignedUserId: zod_1.z.string().uuid().optional(),
     kpiId: zod_1.z.string().uuid().optional(),
+    recurringEndDate: zod_1.z.coerce.date().nullable().optional(),
     // TaskInstance editable fields
     status: zod_1.z.enum(TaskStatusEnum).optional(),
     deadline: zod_1.z.coerce.date().optional(),

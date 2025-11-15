@@ -43,7 +43,10 @@ export const TaskMasterSchema = z.object({
 
   // RECURRING INFO
   isRecurring: z.boolean(),
-  recurringFrequency: z.nativeEnum(RecurringFrequencyEnum).nullable().optional(),
+  recurringFrequency: z
+    .nativeEnum(RecurringFrequencyEnum)
+    .nullable()
+    .optional(),
   recurringEndDate: z.coerce.date().nullable().optional(),
 
   // ASSIGNMENT
@@ -115,6 +118,7 @@ export const CreateTaskSchema = z.object({
     .nativeEnum(RecurringFrequencyEnum)
     .nullable()
     .optional(),
+  recurringEndDate: z.coerce.date().nullable().optional(),
 
   assignedUserId: z
     .string()
@@ -128,10 +132,7 @@ export const CreateTaskSchema = z.object({
   proofOfCompletion: z.string().nullable().optional(),
 });
 
-
-export type CreateTaskDTO = z.infer<
-  typeof CreateTaskSchema
->;
+export type CreateTaskDTO = z.infer<typeof CreateTaskSchema>;
 
 /* ------------ UPDATE TASK INSTANCE DTO ------------ */
 
@@ -147,6 +148,7 @@ export const UpdateTaskSchema = z.object({
     .optional(),
   assignedUserId: z.string().uuid().optional(),
   kpiId: z.string().uuid().optional(),
+  recurringEndDate: z.coerce.date().nullable().optional(),
 
   // TaskInstance editable fields
   status: z.enum(TaskStatusEnum).optional(),
@@ -155,9 +157,7 @@ export const UpdateTaskSchema = z.object({
   proofOfCompletion: z.string().nullable().optional(),
 });
 
-export type UpdateTaskDTO = z.infer<
-  typeof UpdateTaskSchema
->;
+export type UpdateTaskDTO = z.infer<typeof UpdateTaskSchema>;
 
 /* ============================================
    FILTER SCHEMA (applies to instances only)

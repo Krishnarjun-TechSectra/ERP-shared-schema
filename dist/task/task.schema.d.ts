@@ -117,6 +117,7 @@ export declare const CreateTaskSchema: z.ZodObject<{
     priority: z.ZodDefault<z.ZodEnum<typeof TaskPriorityEnum>>;
     isRecurring: z.ZodBoolean;
     recurringFrequency: z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>;
+    recurringEndDate: z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>;
     assignedUserId: z.ZodString;
     kpiId: z.ZodString;
     deadline: z.ZodCoercedDate<unknown>;
@@ -133,6 +134,7 @@ export declare const UpdateTaskSchema: z.ZodObject<{
     recurringFrequency: z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>;
     assignedUserId: z.ZodOptional<z.ZodString>;
     kpiId: z.ZodOptional<z.ZodString>;
+    recurringEndDate: z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>;
     status: z.ZodOptional<z.ZodEnum<typeof TaskStatusEnum>>;
     deadline: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     completionDate: z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>;
