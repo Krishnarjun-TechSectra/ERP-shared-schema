@@ -14,15 +14,8 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/* ------------------------------------------
-   CORE
-------------------------------------------- */
-__exportStar(require("./core/enums"), exports);
-__exportStar(require("./core/labels"), exports);
-__exportStar(require("./core/constants"), exports);
-/* ------------------------------------------
-   MODULES
-------------------------------------------- */
-__exportStar(require("./modules/task"), exports);
-__exportStar(require("./modules/user"), exports);
-__exportStar(require("./modules/kpi"), exports);
+__exportStar(require("./create-task.schema"), exports);
+__exportStar(require("./filter-tasks.schema"), exports);
+__exportStar(require("./task-instance.schema"), exports);
+__exportStar(require("./task-master.schema"), exports);
+__exportStar(require("./update-task.schema"), exports);
