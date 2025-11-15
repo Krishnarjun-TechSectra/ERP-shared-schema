@@ -27,6 +27,7 @@ export declare const TaskMasterSchema: z.ZodObject<{
     priority: z.ZodDefault<z.ZodEnum<typeof TaskPriorityEnum>>;
     isRecurring: z.ZodBoolean;
     recurringFrequency: z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>;
+    recurringEndDate: z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>;
     assignedUserId: z.ZodOptional<z.ZodString>;
     assignedUser: z.ZodOptional<z.ZodObject<{
         id: z.ZodOptional<z.ZodString>;
@@ -52,6 +53,7 @@ export declare const CreateTaskMasterSchema: z.ZodObject<{
     description: z.ZodOptional<z.ZodString>;
     isRecurring: z.ZodBoolean;
     recurringFrequency: z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>;
+    recurringEndDate: z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>;
     assignedUser: z.ZodOptional<z.ZodObject<{
         id: z.ZodOptional<z.ZodString>;
         name: z.ZodOptional<z.ZodString>;
@@ -79,6 +81,7 @@ export declare const UpdateTaskMasterSchema: z.ZodObject<{
     updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     isRecurring: z.ZodOptional<z.ZodBoolean>;
     recurringFrequency: z.ZodOptional<z.ZodOptional<z.ZodNullable<z.ZodEnum<typeof RecurringFrequencyEnum>>>>;
+    recurringEndDate: z.ZodOptional<z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>>;
     assignedUserId: z.ZodOptional<z.ZodOptional<z.ZodString>>;
     assignedUser: z.ZodOptional<z.ZodOptional<z.ZodObject<{
         id: z.ZodOptional<z.ZodString>;

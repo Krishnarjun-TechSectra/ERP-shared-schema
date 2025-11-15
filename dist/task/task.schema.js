@@ -43,6 +43,7 @@ exports.TaskMasterSchema = zod_1.z.object({
     // RECURRING INFO
     isRecurring: zod_1.z.boolean(),
     recurringFrequency: zod_1.z.nativeEnum(RecurringFrequencyEnum).nullable().optional(),
+    recurringEndDate: zod_1.z.coerce.date().nullable().optional(),
     // ASSIGNMENT
     assignedUserId: zod_1.z.string().uuid().optional(),
     assignedUser: user_1.UserSchema.partial().optional(),

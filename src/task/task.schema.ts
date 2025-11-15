@@ -44,6 +44,7 @@ export const TaskMasterSchema = z.object({
   // RECURRING INFO
   isRecurring: z.boolean(),
   recurringFrequency: z.nativeEnum(RecurringFrequencyEnum).nullable().optional(),
+  recurringEndDate: z.coerce.date().nullable().optional(),
 
   // ASSIGNMENT
   assignedUserId: z.string().uuid().optional(),
