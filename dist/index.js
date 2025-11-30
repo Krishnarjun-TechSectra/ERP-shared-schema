@@ -26,3 +26,4 @@ __exportStar(require("./core/constants"), exports);
 __exportStar(require("./modules/task"), exports);
 __exportStar(require("./modules/user"), exports);
 __exportStar(require("./modules/kpi"), exports);
+__exportStar(require("./modules/goal"), exports);
