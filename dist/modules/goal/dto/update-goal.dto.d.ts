@@ -1,6 +1,7 @@
 import { z } from "zod";
 export declare const UpdateGoalDto: z.ZodObject<{
     name: z.ZodOptional<z.ZodString>;
+    progress: z.ZodOptional<z.ZodDefault<z.ZodNumber>>;
     target: z.ZodOptional<z.ZodNumber>;
     assignedUserId: z.ZodOptional<z.ZodString>;
     deadline: z.ZodOptional<z.ZodCoercedDate<unknown>>;

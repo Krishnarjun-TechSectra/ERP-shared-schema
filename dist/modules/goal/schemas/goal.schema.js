@@ -26,6 +26,13 @@ exports.GoalSchema = zod_1.z
     assignedUserId: zod_1.z
         .string()
         .uuid(constants_1.ErrorMessages.INVALID_UUID),
+    // NEW: progress % (for slider)
+    progress: zod_1.z
+        .number()
+        .int()
+        .min(0, "Progress cannot be less than 0")
+        .max(100, "Progress cannot be more than 100")
+        .default(0),
     createdAt: zod_1.z.coerce.date().optional(),
     updatedAt: zod_1.z.coerce.date().optional(),
 })

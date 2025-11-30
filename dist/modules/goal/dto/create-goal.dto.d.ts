@@ -1,6 +1,7 @@
 import { z } from "zod";
 export declare const CreateGoalDto: z.ZodObject<{
     name: z.ZodString;
+    progress: z.ZodDefault<z.ZodNumber>;
     target: z.ZodNumber;
     assignedUserId: z.ZodString;
     deadline: z.ZodCoercedDate<unknown>;
