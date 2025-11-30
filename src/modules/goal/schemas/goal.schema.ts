@@ -29,6 +29,14 @@ export const GoalSchema = z
     assignedUserId: z
       .string()
       .uuid(ErrorMessages.INVALID_UUID),
+      
+     // NEW: progress % (for slider)
+    progress: z
+      .number()
+      .int()
+      .min(0, "Progress cannot be less than 0")
+      .max(100, "Progress cannot be more than 100")
+      .default(0),
 
     createdAt: z.coerce.date().optional(),
     updatedAt: z.coerce.date().optional(),

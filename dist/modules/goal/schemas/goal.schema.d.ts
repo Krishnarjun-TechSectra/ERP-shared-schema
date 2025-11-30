@@ -6,6 +6,7 @@ export declare const GoalSchema: z.ZodObject<{
     weightageLevel: z.ZodNumber;
     target: z.ZodNumber;
     assignedUserId: z.ZodString;
+    progress: z.ZodDefault<z.ZodNumber>;
     createdAt: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     updatedAt: z.ZodOptional<z.ZodCoercedDate<unknown>>;
 }, z.core.$strict>;
