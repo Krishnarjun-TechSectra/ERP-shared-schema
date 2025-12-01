@@ -4,7 +4,7 @@ export declare const GoalSchema: z.ZodObject<{
     name: z.ZodString;
     deadline: z.ZodCoercedDate<unknown>;
     weightageLevel: z.ZodNumber;
-    target: z.ZodNumber;
+    target: z.ZodString;
     assignedUserId: z.ZodString;
     progress: z.ZodDefault<z.ZodNumber>;
     createdAt: z.ZodOptional<z.ZodCoercedDate<unknown>>;

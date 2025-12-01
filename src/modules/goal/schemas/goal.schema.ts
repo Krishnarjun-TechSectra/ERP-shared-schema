@@ -22,8 +22,8 @@ export const GoalSchema = z
 
     // 4. Target (ex: 20 Lacs)
     target: z
-      .number()
-      .min(0, "Target must be a positive number"),
+      .string()
+      .min(0, "Goal Target is required"),
 
     // 5. Assigned user
     assignedUserId: z

@@ -20,8 +20,8 @@ exports.GoalSchema = zod_1.z
         .max(5, "Weightage level must be at most 5"),
     // 4. Target (ex: 20 Lacs)
     target: zod_1.z
-        .number()
-        .min(0, "Target must be a positive number"),
+        .string()
+        .min(0, "Goal Target is required"),
     // 5. Assigned user
     assignedUserId: zod_1.z
         .string()

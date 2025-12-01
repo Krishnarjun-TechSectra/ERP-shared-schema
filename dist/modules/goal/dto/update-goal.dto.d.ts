@@ -2,7 +2,7 @@ import { z } from "zod";
 export declare const UpdateGoalDto: z.ZodObject<{
     name: z.ZodOptional<z.ZodString>;
     progress: z.ZodOptional<z.ZodDefault<z.ZodNumber>>;
-    target: z.ZodOptional<z.ZodNumber>;
+    target: z.ZodOptional<z.ZodString>;
     assignedUserId: z.ZodOptional<z.ZodString>;
     deadline: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
