@@ -27,8 +27,8 @@ export declare const UpdateUserSchema: z.ZodObject<{
     name: z.ZodOptional<z.ZodString>;
     role: z.ZodOptional<z.ZodDefault<z.ZodEnum<typeof RoleEnum>>>;
     email: z.ZodOptional<z.ZodString>;
-    kpiScore: z.ZodOptional<z.ZodOptional<z.ZodNumber>>;
     createdAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
     updatedAt: z.ZodOptional<z.ZodOptional<z.ZodCoercedDate<unknown>>>;
+    kpiScore: z.ZodOptional<z.ZodOptional<z.ZodNumber>>;
 }, z.core.$strip>;
 export type UpdateUserDTO = z.infer<typeof UpdateUserSchema>;

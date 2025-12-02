@@ -18,7 +18,6 @@ exports.GoalSchema = zod_1.z
         .int()
         .min(1, "Weightage level must be at least 1")
         .max(5, "Weightage level must be at most 5"),
-    // 4. Target (ex: 20 Lacs)
     target: zod_1.z
         .string()
         .min(0, "Goal Target is required"),
