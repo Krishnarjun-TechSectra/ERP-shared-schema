@@ -8,7 +8,7 @@ export declare const CreateTaskDto: z.ZodObject<{
     recurringEndDate: z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>;
     recurringWeekDays: z.ZodOptional<z.ZodNullable<z.ZodArray<z.ZodEnum<typeof import("../../..").WeekdayEnum>>>>;
     assignedUserId: z.ZodString;
-    kpiId: z.ZodOptional<z.ZodString>;
+    kpiId: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     deadline: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     status: z.ZodDefault<z.ZodEnum<typeof import("..").TaskStatusEnum>>;
     completionDate: z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>;
