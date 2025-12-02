@@ -10,7 +10,7 @@ export declare const CreateTaskSchema: z.ZodObject<{
     recurringEndDate: z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>;
     recurringWeekDays: z.ZodOptional<z.ZodNullable<z.ZodArray<z.ZodEnum<typeof WeekdayEnum>>>>;
     assignedUserId: z.ZodString;
-    kpiId: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    kpiId: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     deadline: z.ZodOptional<z.ZodCoercedDate<unknown>>;
     status: z.ZodDefault<z.ZodEnum<typeof TaskStatusEnum>>;
     completionDate: z.ZodOptional<z.ZodNullable<z.ZodCoercedDate<unknown>>>;

@@ -28,7 +28,7 @@ exports.CreateTaskSchema = zod_1.z
         .optional(),
     recurringWeekDays: zod_1.z.array(zod_1.z.nativeEnum(enums_2.WeekdayEnum)).nullable().optional(),
     assignedUserId: zod_1.z.string().uuid(constants_1.ErrorMessages.INVALID_UUID),
-    kpiId: zod_1.z.string().uuid().nullish(),
+    kpiId: zod_1.z.string().uuid(constants_1.ErrorMessages.INVALID_UUID).optional().nullable(),
     /* ---------------- INSTANCE FIELDS ---------------- */
     // ❗ For non-recurring tasks FE must send deadline
     // ❗ For recurring tasks FE must NOT send deadline
