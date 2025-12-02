@@ -40,7 +40,8 @@ export const CreateTaskSchema = z
 
     assignedUserId: z.string().uuid(ErrorMessages.INVALID_UUID),
 
-    kpiId: z.string().uuid(ErrorMessages.INVALID_UUID).optional().nullable(),
+    kpiId: z.string().uuid(ErrorMessages.INVALID_UUID).optional(),
+
 
     /* ---------------- INSTANCE FIELDS ---------------- */
 
