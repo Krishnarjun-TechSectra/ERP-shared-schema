@@ -16,3 +16,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./create-goal.dto"), exports);
 __exportStar(require("./update-goal.dto"), exports);
+__exportStar(require("./goal-filter.dto"), exports);
